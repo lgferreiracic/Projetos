@@ -72,12 +72,12 @@ int main (void){
     char posicao;
  
     do{
-        scanf("%d", &quantNum);
-        if(quantNum==0)
+        scanf("%d", &quantNum); //Entrada da quantidade de elementos
+        if(quantNum==0) //Os casos de teste terminam com N = 0
             break;
         Pno inicio=NULL;
         for(int i=0; i<quantNum; i++){
-            scanf(" %c %d", &posicao, &num);
+            scanf(" %c %d", &posicao, &num); //Entrada da posicao do elemento e do valor do mesmo
             Pno novo=criaElemento(num);
             switch (posicao)
             {
@@ -91,7 +91,7 @@ int main (void){
         }
         mostrarLista(inicio);
         Pno atual = inicio;
-        while (atual != NULL) {
+        while (atual != NULL) { //Liberacao de memoria a cada iteracao do laco
             Pno proximo = atual->prox;
             free(atual);
             atual = proximo;
