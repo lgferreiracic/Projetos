@@ -1,7 +1,7 @@
 package Aula5;
 
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class AuxiliarConsole {
     public static void limparBuffer(Scanner scanner) {
@@ -10,10 +10,10 @@ public class AuxiliarConsole {
         }
     }
     public static void esperar() {
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine(); // Aguarda até que o usuário pressione Enter
-        scanner.close(); // Feche o Scanner quando terminar
+        Scanner pauser = new Scanner (System.in);
+        pauser.nextLine();
     }
+    
     public static void limparTela(){
         try {
             if (System.getProperty("os.name").contains("Windows")) {

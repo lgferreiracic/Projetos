@@ -5,11 +5,12 @@ public class Fabrica{
     public static void main(String[] args){
         Scanner s=new Scanner(System.in);
         int opcao = 0;
-        int[][] fabrica=new int[5][5];
+        //int[][] fabrica=new int[5][5];
         int i, j;
-        Robo posicao = new Robo(); 
-        Obstaculos obstaculo = new Obstaculos();
-        posicao.i=-1;
+        //Robo posicao = new Robo(); 
+        Sala fabrica = new Sala(5, 5);
+        Robo posicao = new Robo(fabrica); 
+        Obstaculos[] obstaculo = new Obstaculos[fabrica.getMaxObstaculos()];
         do {
             System.out.printf("ESCOLHA UMA OPCAO\n");
             System.out.printf("1-Posicionar robo\n");
@@ -24,37 +25,32 @@ public class Fabrica{
                 {
                 case 1:
                     System.out.printf("Qual a posicao do robo? (Linha)\n");
-                    posicao.i=s.nextInt();
+                    i=s.nextInt();
                     System.out.printf("Qual a posicao do robo? (Coluna)\n");
-                    posicao.j=s.nextInt();
-                    AuxiliarConsole.limparBuffer(s);
-                    posicao.i--;
-                    posicao.j--;
-                    if(fabrica[posicao.i][posicao.j]!=2){
-                        for (i = 0; i < 5; i++)
-                            for (j = 0; j < 5; j++)
-                                fabrica[i][j]=fabrica[i][j]==1?0:fabrica[i][j];
-                        fabrica[posicao.i][posicao.j] = 1;
-                    }
+                    j=s.nextInt();
+                    if(fabrica.dentroDosLimites(i, j))
+                        posicao.setIJ(i-1, j-1);
                     else{
-                            System.out.printf("Existe um obstaulo nessa posicao\n");
-                            AuxiliarConsole.esperar();
+                        System.out.printf("%d,%d - Fora dos limites", i, j);
+                        AuxiliarConsole.esperar();
                     }
+                        
+                    AuxiliarConsole.limparBuffer(s);
                     AuxiliarConsole.limparTela();
                 break;
                 case 2:
-                    Robo.imprimirCenario(fabrica);
+                    fabrica.imprimirCenario();
                     //if(posicao.i!=-1&&fabrica[i][j]!=2)
                         //System.out.printf("\n\n\t\tA posicao do robo e %d/%d\n", posicao.i + 1, posicao.j + 1);
                     AuxiliarConsole.limparBuffer(s);
                     AuxiliarConsole.limparTela();
                 break;
                 case 3:
-                    if(posicao.i!=-1){
+                    if(posicao.getPosicionado()){
                         char movimentar=' ';
                         do{
                             AuxiliarConsole.limparTela();
-                            Robo.imprimirCenario(fabrica);
+                            fabrica.imprimirCenario();
                             System.out.printf("Para qual lado?\n");
                             System.out.printf("Cima = C\n");
                             System.out.printf("Baixo = B\n");
@@ -64,29 +60,29 @@ public class Fabrica{
                             movimentar=s.nextLine().charAt(0);
                             movimentar=Character.toLowerCase(movimentar);
                             if (movimentar!='f'){
-                                if (Robo.movimentoValido(movimentar, posicao, fabrica)==1) {
                                 switch (movimentar) {
                                     case 'c':
-                                        Robo.mover_para_cima(fabrica, posicao);
+                                        posicao.mover_para_cima();
                                     break;
                                     case 'b':
-                                        Robo.mover_para_baixo(fabrica, posicao);
+                                        posicao.mover_para_baixo();
                                     break;
                                     case 'e':
-                                        Robo.mover_para_esquerda(fabrica, posicao);
+                                        posicao.mover_para_esquerda();
                                     break;
                                     case 'd':
-                                        Robo.mover_para_direita(fabrica, posicao);
+                                        posicao.mover_para_direita();
                                     break;
                                     default:
                                     break;
-                                }
+                                /* }
                                 }
                                 else{
                                     AuxiliarConsole.limparTela();
                                     System.out.printf("Movimento invalido.\n");
                                     AuxiliarConsole.esperar();
-                                }
+                                }*/
+                            }
                             }     
                         }while(movimentar!='f');
                     }
@@ -98,15 +94,15 @@ public class Fabrica{
                 break;
                 case 4:
                     System.out.printf("Onde posicionar o obstaculo? (Linha)\n");
-                    obstaculo.i=s.nextInt();
+                    i=s.nextInt();
                     System.out.printf("Onde posicionar o obstaculo? (Coluna)\n");
-                    obstaculo.j=s.nextInt();
-                    obstaculo.i--;
-                    obstaculo.j--;
-                    if(fabrica[obstaculo.i][obstaculo.j]!=1&&fabrica[obstaculo.i][obstaculo.j]!=2)
-                                fabrica[obstaculo.i][obstaculo.j]=2;
-                    else {
-                        System.out.printf("Movimento invalido.\n");
+                    j=s.nextInt();
+                    if(fabrica.dentroDosLimites(i, j)){
+                        obstaculo[fabrica.getQuantAtualObstaculos()]=new Obstaculos(fabrica);
+                        obstaculo[fabrica.getQuantAtualObstaculos()].setIJ(i-1, j-1);
+                    }
+                    else{
+                        System.out.printf("%d,%d - Fora dos limites\n", i, j);
                         AuxiliarConsole.esperar();
                     }
                     AuxiliarConsole.limparTela();

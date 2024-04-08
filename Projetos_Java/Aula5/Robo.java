@@ -1,70 +1,80 @@
 package Aula5;
 
 public class Robo{
-    public int i;
-    public int j;
+    private int i;
+    private int j;
+    private Sala rSala;
+    private boolean posicionado=false;
 
-    public static int movimentoValido(char movimentar, Robo posicao, int[][] fabrica){
-        if ((movimentar == 'c') && posicao.i > 0 && fabrica[posicao.i-1][posicao.j]!=2){
-            fabrica[posicao.i][posicao.j]=0;
-            return 1;
+    public Robo(Sala pSala){
+        this.i=0;
+        this.j=0;
+        this.rSala=pSala;
+    }
+    public Robo(int i, int j, Sala sala) {
+        this.i = i;
+        this.j = j;
+        this.rSala = sala;
+        sala.setRobo(this); 
+    }
+
+    public void setIJ(int pI, int pJ){
+        if(rSala.getSala()[pI][pJ]!=2){
+            if(posicionado)
+                rSala.getSala()[i][j] = 0;
+            rSala.getSala()[pI][pJ] = 1;
+            this.i=pI;
+            this.j=pJ;
+            this.setPosicionado();
         }
-        else if ((movimentar == 'b') && posicao.i < 4 && fabrica[posicao.i+1][posicao.j]!=2){
-            fabrica[posicao.i][posicao.j]=0;
-            return 1;
+        else{
+                System.out.printf("Existe um obstaulo nessa posicao\n");
+                AuxiliarConsole.esperar();
         }
-        else if ((movimentar == 'e') && posicao.j > 0 && fabrica[posicao.i][posicao.j-1]!=2){
-            fabrica[posicao.i][posicao.j]=0;
-            return 1;
-        }
-        else if ((movimentar == 'd') && posicao.j < 4 && fabrica[posicao.i][posicao.j+1]!=2){
-            fabrica[posicao.i][posicao.j]=0;
-            return 1;
-        }
-        else
-            return 0;
+
     }
 
-    public static void mover_para_cima(int[][] fabrica, Robo posicao) {
-        posicao.i --;
-        fabrica[posicao.i][posicao.j] = 1;
-        //limpar_tela();
+    public void setSala(Sala pSala){
+        this.rSala=pSala;
     }
 
-    public static void mover_para_baixo(int[][] fabrica, Robo posicao) {
-        posicao.i ++;
-        fabrica[posicao.i][posicao.j] = 1;
-        //limpar_tela();
+    public void setPosicionado(){
+        this.posicionado=true;
+    }
+    public int getI(){
+        return this.i;
     }
 
-    public static void mover_para_esquerda(int[][] fabrica, Robo posicao) {
-        posicao.j--;
-        fabrica[posicao.i][posicao.j] = 1;
-        //limpar_tela();
+    public int getJ(){
+        return this.j;
     }
 
-    public static void mover_para_direita(int[][] fabrica, Robo posicao) {
-        posicao.j++;
-        fabrica[posicao.i][posicao.j] = 1;
-        //limpar_tela();
+    public Sala getSala(){
+        return this.rSala;
     }
 
-    public static void imprimirCenario(int[][] fabrica){
-        int i, j;
-        System.out.printf("\t\t1\t\t2\t\t3\t\t4\t\t5\n");
-        System.out.printf("\t---------------------------------------------------------------------------------\n");
-        for (i = 0; i < 5; i++) {
-            System.out.printf("%d\t|\t", i+1);
-            for (j = 0; j < 5; j++) {
-                if (fabrica[i][j] == 0)
-                    System.out.printf(" \t|\t");
-                else if(fabrica[i][j] == 1)
-                    System.out.printf("O\t|\t");
-                else if(fabrica[i][j] == 2)
-                    System.out.printf("X\t|\t");
-            }
-            System.out.printf("\n");
-            System.out.printf("\t---------------------------------------------------------------------------------\n");
-        }      
+    public boolean getPosicionado(){
+        return this.posicionado;
     }
+
+    public void mover_para_cima() {
+        if(i>0)
+            setIJ(i - 1, j);
+    }
+
+    public void mover_para_baixo() {
+        if(i<4)
+            setIJ(i + 1, j);
+    }
+
+    public void mover_para_esquerda() {
+        if(j>0)
+            setIJ(i, j - 1);
+    }
+
+    public void mover_para_direita() {
+        if(j<4)
+            setIJ(i, j + 1);
+    }
+
 }
