@@ -17,7 +17,8 @@ public class Fabrica{
             System.out.printf("2-Imprimir cenario\n");
             System.out.printf("3-Movimentar robo\n");
             System.out.printf("4-Posicionar obstaculo\n");
-            System.out.printf("5-Encerrar\n");
+            //System.out.printf("5-Remover obstaculo\n");
+            System.out.printf("6-Encerrar\n");
             opcao=s.nextInt();
             AuxiliarConsole.limparBuffer(s);
             AuxiliarConsole.limparTela();
@@ -107,8 +108,16 @@ public class Fabrica{
                     }
                     AuxiliarConsole.limparTela();
                 break;
+                /*case 5:
+                    System.out.printf("Onde remover o obstaculo? (Linha)\n");
+                    i=s.nextInt();
+                    System.out.printf("Onde remover o obstaculo? (Coluna)\n");
+                    j=s.nextInt();
+                    if(fabrica.dentroDosLimites(i, j))
+                        fabrica.removerObstaculo(i-1, j-1, obstaculo); 
+                break;*/
             }
-        }while (opcao != 5);
+        }while (opcao != 6);
         s.close();
     }
     

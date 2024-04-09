@@ -4,7 +4,6 @@ public class Obstaculos{
     private int i;
     private int j;
     private Sala oSala;
-    private int numObstaculos=0;
     public Obstaculos(int pI, int pJ, Sala pSala){
         this.i=pI;
         this.j=pJ;
@@ -19,7 +18,6 @@ public class Obstaculos{
     public void setIJ(int pI, int pJ){
         if(oSala.getSala()[pI][pJ]!=1&&oSala.getSala()[pI][pJ]!=2){
             oSala.getSala()[pI][pJ]=2;
-            this.numObstaculos++;
 
         }                        
         else {

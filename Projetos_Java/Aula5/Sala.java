@@ -51,6 +51,10 @@ public class Sala {
         return this.quantAtualObstaculos;
     }
 
+    public void diminuirQuantObstaculos(){
+        quantAtualObstaculos--;
+    }
+
     public boolean dentroDosLimites(int pI, int pJ){
         if((pI>0) && (pI<6) && (pJ>0) && (pJ<6))
             return true;
@@ -76,5 +80,21 @@ public class Sala {
             System.out.printf("\t---------------------------------------------------------------------------------\n");
         }     
     } 
+
+    /*public void removerObstaculo(int pI, int pJ, Obstaculos[] obstaculo){
+        if(sala[pI][pJ]==2){
+            sala[pI][pJ]=0;
+            System.out.println("Obstaculo removido com sucesso");
+            obstaculo[quantAtualObstaculos-1]=null;
+            diminuirQuantObstaculos();
+            AuxiliarConsole.esperar();
+            AuxiliarConsole.limparTela();
+        }
+        else{
+            System.out.println("Nao existe um obstaculo nessa posicao");
+            AuxiliarConsole.esperar();
+            AuxiliarConsole.limparTela();
+        }
+    }*/
 
 }
