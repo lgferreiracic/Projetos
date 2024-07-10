@@ -1,0 +1,13 @@
+digraph {
+	<__main__.No object at 0x7fb5879f58a0> [label=5]
+	<__main__.No object at 0x7fb5879f59c0> [label=3]
+	<__main__.No object at 0x7fb5879f5a20> [label=4]
+	<__main__.No object at 0x7fb5879f5900> [label=6]
+	<__main__.No object at 0x7fb5879f5960> [label=9]
+	<__main__.No object at 0x7fb5879f5a80> [label=7]
+	<__main__.No object at 0x7fb5879f58a0> -> <__main__.No object at 0x7fb5879f59c0> [label=esq]
+	<__main__.No object at 0x7fb5879f58a0> -> <__main__.No object at 0x7fb5879f5900> [label=dir]
+	<__main__.No object at 0x7fb5879f59c0> -> <__main__.No object at 0x7fb5879f5a20> [label=dir]
+	<__main__.No object at 0x7fb5879f5900> -> <__main__.No object at 0x7fb5879f5960> [label=dir]
+	<__main__.No object at 0x7fb5879f5960> -> <__main__.No object at 0x7fb5879f5a80> [label=esq]
+}

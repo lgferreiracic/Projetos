@@ -1,0 +1,28 @@
+Web/Maria/
+#Arquivos de imagem
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Documentos PDF
+*.pdf
+
+# Arquivos de vídeo
+*.mp4
+*.avi
+
+# Arquivos temporários ou de cache
+*~
+.DS_Store
+
+#Outros
+*.exe
+
+# Ignorar arquivos de cache Python
+__pycache__/
+
+# Ignorar arquivos de saída de compilação em C
+*.o
+*.out
+output/

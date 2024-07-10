@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #define TAMANHO 26
+#define TAMANHO2X 52
 
 struct stack {
 	int top;
@@ -18,7 +19,7 @@ int main(void){
     esquerda.top=direita.top=entradaPilha.top=-1;//Inicializacao das pilhas com -1
     int quantVagoes;
     char entrada[TAMANHO]={};
-    char operacoes[TAMANHO*2]={};
+    char operacoes[TAMANHO2X]={};
 
     scanf("%d ", &quantVagoes);//Entrada da quantidade de vagoes
 
@@ -38,7 +39,7 @@ int main(void){
     }
 
     for (int i=0; i<=direita.top; i++)//Loop para impressao da pilha direita
-      printf(" %c", direita.items[i]);
+      printf("%c ", direita.items[i]);
 	printf("\n");
 
     return 0;
