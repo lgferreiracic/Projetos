@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form action="/checkout">
+        <label for="payment_method">Payment Method</label>
+        <select name="payment_method" id="payment_method">
+            <option value="BB">Banco do Brasil</option>
+            <option value="Nubank">Nubank</option>
+            <option value="Caixa">Caixa</option>
+        </select>
+        <fieldset>
+            <legend>Shipping Method</legend>
+            <div>
+                <input type="radio" value="two_day" id="two_day" name="shipping">
+                <label for="two_day">FREE - Two Day Shipping</label>
+            </div>
+            <div>
+                <input type="radio" value="standard" id="standard" name="shipping">
+                <label for="standard">FREE - Standard Shipping (4-5 Business Days)</label>
+            </div>
+            <div>
+                <input type="radio" value="no_rush" id="no_rush" name="shipping">
+                <label for="no_rush">FREE - No Rush Shipping (5 Business Days)</label>
+            </div>
+        </fieldset>
+        <div>
+            <label for="gift">This is a gift</label>
+            <input type="checkbox" name="gift" id="gift">
+        </div>
+        <button type="submit">Place Your Order</button>
+    </form>
+</body>
+</html>
