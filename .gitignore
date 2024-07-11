@@ -18,6 +18,8 @@ Web/Maria/
 
 #Outros
 *.exe
+*.xml
+*.iml
 
 # Ignorar arquivos de cache Python
 __pycache__/
