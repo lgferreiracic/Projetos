@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+}
+
+html, body{
+    height: 100%;
+}
+.box{
+    padding: 20px 10px 10px 20px;
+    border: 5px solid black;
+    margin: 5px 10px 10px 5px;
+    display: inline-block;
+}
+
+#box1{
+    height: 300px;
+    width: 50%;
+    display: none;
+    box-sizing: border-box;
+}   
+
+.box:hover{
+    background-color: red;
+}
