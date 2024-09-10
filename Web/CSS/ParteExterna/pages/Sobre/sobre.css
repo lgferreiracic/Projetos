@@ -1,0 +1,41 @@
+header{
+    background: white !important;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+main{
+    margin-top: 5rem;
+    overflow: hidden;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+main section{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-section__cacauicultor{
+    background: url("../../Images/cacau.jpg") no-repeat center/contain;
+    width: 50rem;
+    height: 50rem;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.main-section__texto{
+    width: 50rem;
+    height: 100%;
+    margin: 10rem 0 0 5rem;
+    padding: 0;
+}
+
+.main-section__texto h1{
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0e4f1f;
+    text-align: center;
+}
+

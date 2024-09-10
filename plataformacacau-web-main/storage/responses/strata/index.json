@@ -1,0 +1,21 @@
+{
+	"success": true,
+	"data": [
+		{
+			"id": 1,
+			"label": "Estrato Sul",
+			"status": true
+		},
+		{
+			"id": 2,
+			"label": "Estrato Norte",
+			"status": true
+		},
+		{
+			"id": 3,
+			"label": "Estrato Central",
+			"status": true
+		}
+	],
+	"message": null
+}

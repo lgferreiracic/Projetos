@@ -1,0 +1,121 @@
+{
+	"success": true,
+	"data": [
+		{
+			"id": 1,
+			"ini_period": 7,
+			"status": true,
+			"stratum_id": 1,
+			"geolocation": {
+				"id": 1,
+				"latitude": "75.263098",
+				"longitude": "-96.60505",
+				"ratio": "2.5",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			},
+			"property": {
+				"id": 1,
+				"name": "Carroll, Sporer and Runte",
+				"owner_name": "Jarrett",
+				"description": "Alice could bear: she got used to know. Let me.",
+				"status": "1",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			}
+		},
+		{
+			"id": 2,
+			"ini_period": 3,
+			"status": false,
+			"stratum_id": 1,
+			"geolocation": {
+				"id": 2,
+				"latitude": "-64.716971",
+				"longitude": "-56.375056",
+				"ratio": "2.5",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			},
+			"property": {
+				"id": 1,
+				"name": "Carroll, Sporer and Runte",
+				"owner_name": "Jarrett",
+				"description": "Alice could bear: she got used to know. Let me.",
+				"status": "1",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			}
+		},
+		{
+			"id": 3,
+			"ini_period": 15,
+			"status": true,
+			"stratum_id": 1,
+			"geolocation": {
+				"id": 3,
+				"latitude": "63.412438",
+				"longitude": "-153.25956",
+				"ratio": "2.5",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			},
+			"property": {
+				"id": 1,
+				"name": "Carroll, Sporer and Runte",
+				"owner_name": "Jarrett",
+				"description": "Alice could bear: she got used to know. Let me.",
+				"status": "1",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			}
+		},
+		{
+			"id": 4,
+			"ini_period": 2,
+			"status": false,
+			"stratum_id": 1,
+			"geolocation": {
+				"id": 4,
+				"latitude": "-11.125733",
+				"longitude": "9.63329",
+				"ratio": "2.5",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			},
+			"property": {
+				"id": 1,
+				"name": "Carroll, Sporer and Runte",
+				"owner_name": "Jarrett",
+				"description": "Alice could bear: she got used to know. Let me.",
+				"status": "1",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			}
+		},
+		{
+			"id": 5,
+			"ini_period": 4,
+			"status": true,
+			"stratum_id": 1,
+			"geolocation": {
+				"id": 5,
+				"latitude": "-17.682342",
+				"longitude": "133.265227",
+				"ratio": "2.5",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			},
+			"property": {
+				"id": 1,
+				"name": "Carroll, Sporer and Runte",
+				"owner_name": "Jarrett",
+				"description": "Alice could bear: she got used to know. Let me.",
+				"status": "1",
+				"created_at": "2020-06-26T05:46:25.000000Z",
+				"updated_at": "2020-06-26T05:46:25.000000Z"
+			}
+		}
+	],
+	"message": null
+}

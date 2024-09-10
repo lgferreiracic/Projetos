@@ -1,0 +1,11 @@
+{
+	"success": true,
+	"data": {
+		"id": 181,
+		"label": "Árvore 100",
+		"status": "true",
+		"sampling_point_id": "1",
+		"tree_visits": []
+	},
+	"message": "Árvore registrada"
+}

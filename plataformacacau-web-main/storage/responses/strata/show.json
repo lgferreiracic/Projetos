@@ -1,0 +1,9 @@
+{
+	"success": true,
+	"data": {
+		"id": 1,
+		"label": "Estrato Sul",
+		"status": true
+	},
+	"message": null
+}

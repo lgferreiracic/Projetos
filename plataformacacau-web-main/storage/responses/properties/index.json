@@ -1,0 +1,30 @@
+{
+	"success": true,
+	"data": [
+		{
+			"id": 1,
+			"name": "Windler, Gulgowski and Tremblay",
+			"owner_name": "Isadore",
+			"description": "Rome--no, THAT'S all wrong, I'm certain! I must.",
+			"created_at": "2020-06-26T01:40:41.000000Z",
+			"updated_at": "2020-06-26T01:40:41.000000Z"
+		},
+		{
+			"id": 2,
+			"name": "Bins LLC",
+			"owner_name": "Kacey",
+			"description": "Mock Turtle went on. 'Or would you tell me,'.",
+			"created_at": "2020-06-26T01:40:41.000000Z",
+			"updated_at": "2020-06-26T01:40:41.000000Z"
+		},
+		{
+			"id": 3,
+			"name": "Cummings, Koch and Bergstrom",
+			"owner_name": "Kiel",
+			"description": "Alice noticed with some curiosity. 'What a funny.",
+			"created_at": "2020-06-26T01:40:41.000000Z",
+			"updated_at": "2020-06-26T01:40:41.000000Z"
+		}
+	],
+	"message": null
+}

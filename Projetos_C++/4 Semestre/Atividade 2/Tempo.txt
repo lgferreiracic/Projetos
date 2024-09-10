@@ -1,0 +1,65 @@
+AverageCase
+Size: 10 - Time: 0,000014
+Size: 100 - Time: 0,000175
+Size: 1000 - Time: 0,009341
+Size: 10000 - Time: 0,355904
+Size: 20000 - Time: 1,2262
+Size: 30000 - Time: 2,65373
+Size: 40000 - Time: 4,70027
+Size: 50000 - Time: 7,11511
+Size: 60000 - Time: 10,3327
+Size: 70000 - Time: 13,7984
+Size: 80000 - Time: 18,3127
+Size: 90000 - Time: 22,906
+Size: 100000 - Time: 31,5786
+Size: 200000 - Time: 109,017
+Size: 300000 - Time: 245,486
+Size: 400000 - Time: 438,394
+Size: 500000 - Time: 684,165
+Size: 600000 - Time: 1222,27
+Size: 800000 - Time: 2102,91
+Size: 1000000 - Time: 2738,93
+
+BestCase
+Size: 10 - Time: 0,000018
+Size: 100 - Time: 0,000028
+Size: 1000 - Time: 0,000082
+Size: 10000 - Time: 0,000176
+Size: 20000 - Time: 0,001296
+Size: 30000 - Time: 0,001988
+Size: 40000 - Time: 0,002784
+Size: 50000 - Time: 0,003401
+Size: 60000 - Time: 0,004507
+Size: 70000 - Time: 0,004672
+Size: 80000 - Time: 0,004928
+Size: 90000 - Time: 0,003107
+Size: 100000 - Time: 0,005257
+Size: 200000 - Time: 0,015186
+Size: 300000 - Time: 0,024956
+Size: 400000 - Time: 0,026853
+Size: 500000 - Time: 0,03733
+Size: 600000 - Time: 0,057571
+Size: 800000 - Time: 0,05854
+Size: 10000000 - Time: 0,165604 
+
+WorstCase
+Size: 10 - Time: 5.6e-05
+Size: 100 - Time: 9.7e-05
+Size: 1000 - Time: 0.018547
+Size: 10000 - Time: 0.573427
+Size: 20000 - Time: 2.7037
+Size: 30000 - Time: 5.46631
+Size: 40000 - Time: 8.76828
+Size: 50000 - Time: 14.2174
+Size: 60000 - Time: 19.677
+Size: 70000 - Time: 26.7229
+Size: 80000 - Time: 35.2378
+Size: 90000 - Time: 44.2147
+Size: 100000 - Time: 55.197
+Size: 200000 - Time: 218.979
+Size: 300000 - Time: 495.795
+Size: 400000 - Time: 920.018
+Size: 500000 - Time: 1397.8
+Size: 600000 - Time: 2222.64
+Size: 800000 - Time: 3748.85
+Size: 10000000 - Time: 5884.52

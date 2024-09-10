@@ -1,0 +1,183 @@
+* {
+    box-sizing: border-box;
+}
+
+header{
+    position: relative;
+    z-index: 1;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+main{
+    margin-top: 10rem;
+    background-color: white;
+    height: 70vh;
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    position: relative;
+    z-index: 0;
+}
+
+.main-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    z-index: 1;
+}
+
+.main-header > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-header__logo {
+    color: #0e4f1f;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: inline-block;
+}
+
+.main-header__logo img {
+    height: 100%;
+}
+
+.main-header__nav {
+    display: inline-block;
+    text-align: right;
+    width: calc(100% - 300px);
+    vertical-align: middle;
+}
+
+.main-header__nav__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-header__nav__item {
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.main-header__nav__item a {
+    text-decoration: none;
+    color: #0e4f1f;
+    font-weight: bold;
+    padding: 1rem 1rem;
+}
+
+.main-header__nav__item a:hover,
+.main-header__nav__item a:active {
+    color: white;
+    background-color: #0e4f1f;
+}
+
+.main-footer {
+    background-color: #0e4f1f;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.main-footer h2 {
+    text-align: center;
+}
+
+.main-footer .links {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+}
+
+.main-footer__plataformaCacau {
+    display: inline-block;
+    width: 20%;
+}
+
+.main-footer__plataformaCacau div{
+    display: inline-block;
+    vertical-align: middle;
+
+}
+
+.main-footer__plataformaCacau__logo {
+    background: url("../ParteExterna/Images/agrocacau_logo.png") no-repeat center/cover;
+    width: 10rem;
+    height: 10rem;
+    margin: auto;
+}
+
+.main-footer__plataformaCacau__texto {
+    text-align: center;
+}
+
+.main-footer__instituicoes {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.main-footer__instituicoes__nav__items {
+    margin: 2rem;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.main-footer__instituicoes__nav__item {
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+.main-footer__instituicoes__nav__item a img {
+    height: 10rem;
+    width: 10rem;
+}
+
+.main-footer__linksUteis {
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
+}
+
+.main-footer__nav__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.main-footer__nav__item {
+    margin: 0.5rem 0;
+}
+
+.main-footer__nav__item a {
+    text-decoration: none;
+    color: white;
+}
+
+.main-footer__info {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.main-footer__info a {
+    text-decoration: none;
+    color: #D23827;
+}
+
+footer{
+    margin-top: 5rem;
+}

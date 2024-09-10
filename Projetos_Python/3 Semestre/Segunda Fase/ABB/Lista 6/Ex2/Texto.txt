@@ -1,0 +1,1 @@
+nas mensagens muito extensas contendo simbolos que aparecem raramente, a economia eh substancial; em geral, os codigos nao sao formados pela frequencia de caracteres dentro de uma unica mensagem isolada, mas por sua frequencia dentro de um conjunto inteiro de mensagens; o mesmo conjunto de códigos eh, entao, usado para cada mensagem.

@@ -1,0 +1,92 @@
+header{
+    background: white !important;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+main h1{
+    color: #636b6f;
+    font-size: 2rem;
+    text-align: center;
+}
+
+main h2{
+    font-size: 1rem;
+    color: #636b6f;
+    text-align: center;
+}
+
+main section{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-formulario__texto{
+    width: 50rem;
+    height: 100%;
+    margin: 0 0 0 5rem;
+    padding: 0;
+}
+
+.main-formulario{
+    width: 50rem;
+    height: 50rem;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+form {
+    width: 80%;
+    text-align: center;
+    padding: 30px;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2c3e50;
+    font-size: 1.5rem;
+  }
+  
+  button {
+    width: 100%;
+    background:#0e4f1f;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+    border: 0 none;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 0;
+  }
+
+  textarea{
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #666;
+    font-size: 1.5rem;
+  }
+
+  span{
+    display: inline-block;
+    padding: 1rem;
+    margin-right: 1rem;
+    background-color: #0e4f1f;
+    vertical-align: middle;
+  }

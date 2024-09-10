@@ -1,0 +1,13 @@
+digraph {
+	<Arvore.No object at 0x7f7b457f7fd0> [label=15]
+	<Arvore.No object at 0x7f7b457f7cd0> [label=10]
+	<Arvore.No object at 0x7f7b45496f50> [label=5]
+	<Arvore.No object at 0x7f7b45496f20> [label=12]
+	<Arvore.No object at 0x7f7b457f74f0> [label=20]
+	<Arvore.No object at 0x7f7b45496fe0> [label=17]
+	<Arvore.No object at 0x7f7b457f7fd0> -> <Arvore.No object at 0x7f7b457f7cd0> [label=esq]
+	<Arvore.No object at 0x7f7b457f7fd0> -> <Arvore.No object at 0x7f7b457f74f0> [label=dir]
+	<Arvore.No object at 0x7f7b457f7cd0> -> <Arvore.No object at 0x7f7b45496f50> [label=esq]
+	<Arvore.No object at 0x7f7b457f7cd0> -> <Arvore.No object at 0x7f7b45496f20> [label=dir]
+	<Arvore.No object at 0x7f7b457f74f0> -> <Arvore.No object at 0x7f7b45496fe0> [label=esq]
+}

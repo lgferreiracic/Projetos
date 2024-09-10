@@ -1,0 +1,11 @@
+digraph {
+	A
+	A -> B
+	B
+	B -> D
+	D
+	B -> E
+	E
+	A -> C
+	C
+}

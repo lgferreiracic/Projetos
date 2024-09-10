@@ -1,0 +1,21 @@
+digraph {
+	<Arvore.No object at 0x7f97c3a6faf0> [label=6]
+	<Arvore.No object at 0x7f97c3a6f940> [label=9]
+	<Arvore.No object at 0x7f97c3e39bd0> [label=6]
+	<Arvore.No object at 0x7f97c3de3c10> [label=7]
+	<Arvore.No object at 0x7f97c3de3ca0> [label=7]
+	<Arvore.No object at 0x7f97c3a6fa90> [label=5]
+	<Arvore.No object at 0x7f97c3a6fa30> [label=8]
+	<Arvore.No object at 0x7f97c3a6f910> [label=5]
+	<Arvore.No object at 0x7f97c3a6f9d0> [label=7]
+	<Arvore.No object at 0x7f97c3a6faf0> -> <Arvore.No object at 0x7f97c3a6f940>
+	<Arvore.No object at 0x7f97c3a6faf0> -> <Arvore.No object at 0x7f97c3a6fa90>
+	<Arvore.No object at 0x7f97c3a6f940> -> <Arvore.No object at 0x7f97c3e39bd0>
+	<Arvore.No object at 0x7f97c3a6f940> -> <Arvore.No object at 0x7f97c3de3c10>
+	<Arvore.No object at 0x7f97c3de3c10> -> <Arvore.No object at 0x7f97c3de3ca0>
+	<Arvore.No object at 0x7f97c3de3c10> -> None
+	<Arvore.No object at 0x7f97c3a6fa90> -> None
+	<Arvore.No object at 0x7f97c3a6fa90> -> <Arvore.No object at 0x7f97c3a6fa30>
+	<Arvore.No object at 0x7f97c3a6fa30> -> <Arvore.No object at 0x7f97c3a6f910>
+	<Arvore.No object at 0x7f97c3a6fa30> -> <Arvore.No object at 0x7f97c3a6f9d0>
+}

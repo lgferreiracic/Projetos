@@ -1,9 +1,0 @@
-digraph {
-	<ArvoreAVL.No object at 0x7f5a90ccbc10> [label=10]
-	<ArvoreAVL.No object at 0x7f5a90953ac0> [label=2]
-	<ArvoreAVL.No object at 0x7f5a90953b20> [label=3]
-	<ArvoreAVL.No object at 0x7f5a90953a00> [label=15]
-	<ArvoreAVL.No object at 0x7f5a90ccbc10> -> <ArvoreAVL.No object at 0x7f5a90953ac0> [label=esq]
-	<ArvoreAVL.No object at 0x7f5a90ccbc10> -> <ArvoreAVL.No object at 0x7f5a90953a00> [label=dir]
-	<ArvoreAVL.No object at 0x7f5a90953ac0> -> <ArvoreAVL.No object at 0x7f5a90953b20> [label=dir]
-}

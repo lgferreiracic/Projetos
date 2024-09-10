@@ -1,0 +1,2 @@
+g++ arquivo.cpp -o arquivo
+./arquivo 1000

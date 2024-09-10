@@ -1,0 +1,13 @@
+.btn {
+	&.btn-agro {
+		background: $green-base;
+		border-color: $green-base;
+		color: $white !important;
+
+		&:hover,
+		&:focus {
+			background: $green-base !important;
+			border-color: $green-base !important;
+		}
+	}
+}

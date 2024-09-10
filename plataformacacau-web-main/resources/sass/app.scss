@@ -1,0 +1,187 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css2?family=Roboto");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// Buttons
+@import "buttons";
+
+// Font Awesome
+$fa-font-path: "../webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+html,
+body {
+	background-color: #fff;
+	color: #636b6f;
+	font-family: $font-base;
+	font-weight: 200;
+	height: 100vh;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+	background: $green-base;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: $green-base;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $font-base;
+}
+
+// Landing page navbar
+.navbar-main {
+	z-index: 999;
+	background: transparent !important;
+	position: absolute;
+	left: 0;
+	right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+
+	ul > li > a {
+		color: $white !important;
+		font-family: $font-base;
+		font-size: 16px;
+		font-weight: 400;
+		margin: 0 5px;
+	}
+
+	ul > li:last-child > a {
+		background-color: $vermilion;
+		border-radius: 5px;
+		color: $white !important;
+	}
+
+	ul > li:last-child > a:hover {
+		background-color: $dark-vermilion;
+	}
+
+	ul > li:last-child > a {
+		-webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+		-moz-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+		box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+	}
+}
+
+.navbar-hidden {
+	z-index: 999;
+	position: fixed;
+	top: -65px;
+	left: 0;
+	right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	transition: top 0.3s;
+
+	ul > li > a {
+		color: $green-base !important;
+		font-family: $font-base;
+		font-size: 16px;
+		font-weight: 400;
+		margin: 0 5px;
+	}
+
+	ul > li > a:hover {
+		color: $cadmium-green !important;
+	}
+
+	ul > li:last-child > a {
+		background-color: $vermilion;
+		border-radius: 5px;
+		color: $white !important;
+	}
+
+	ul > li:last-child > a:hover {
+		background-color: $dark-vermilion;
+	}
+
+	ul > li:last-child > a {
+		-webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+		-moz-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+		box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
+	}
+}
+
+@media (min-width: 310px) and (max-width: 769px) {
+	.navbar-main {
+		top: -60px;
+	}
+
+	.navbar-hidden {
+		top: 0 !important;
+
+		ul > li:last-child > a {
+			margin-bottom: 15px;
+		}
+	}
+}
+
+.about {
+	span {
+		font-family: $font-base;
+	}
+}
+
+.full-height {
+	height: 100vh;
+}
+
+.flex-center {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.position-ref {
+	position: relative;
+}
+
+.top-right {
+	position: absolute;
+	right: 10px;
+	top: 18px;
+}
+
+.content {
+	text-align: center;
+}
+
+.title {
+	font-size: 84px;
+}
+
+.links > a {
+	color: #636b6f;
+	padding: 0 25px;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.1rem;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.m-b-md {
+	margin-bottom: 30px;
+}

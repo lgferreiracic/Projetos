@@ -1,0 +1,15 @@
+digraph {
+	<ArvoreAVL.No object at 0x7fe8611c3d00> [label=10]
+	<ArvoreAVL.No object at 0x7fe8611c3ca0> [label=8]
+	<ArvoreAVL.No object at 0x7fe860e4f880> [label=5]
+	<ArvoreAVL.No object at 0x7fe860e4f850> [label=9]
+	<ArvoreAVL.No object at 0x7fe860e4f910> [label=12]
+	<ArvoreAVL.No object at 0x7fe861200b80> [label=11]
+	<ArvoreAVL.No object at 0x7fe860e4f970> [label=13]
+	<ArvoreAVL.No object at 0x7fe8611c3d00> -> <ArvoreAVL.No object at 0x7fe8611c3ca0> [label=esq]
+	<ArvoreAVL.No object at 0x7fe8611c3d00> -> <ArvoreAVL.No object at 0x7fe860e4f910> [label=dir]
+	<ArvoreAVL.No object at 0x7fe8611c3ca0> -> <ArvoreAVL.No object at 0x7fe860e4f880> [label=esq]
+	<ArvoreAVL.No object at 0x7fe8611c3ca0> -> <ArvoreAVL.No object at 0x7fe860e4f850> [label=dir]
+	<ArvoreAVL.No object at 0x7fe860e4f910> -> <ArvoreAVL.No object at 0x7fe861200b80> [label=esq]
+	<ArvoreAVL.No object at 0x7fe860e4f910> -> <ArvoreAVL.No object at 0x7fe860e4f970> [label=dir]
+}
