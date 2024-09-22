@@ -141,6 +141,7 @@ const router = new VueRouter({
 			path: "/panel/change-password",
 			component: ChangePassword,
 		},
+		
 	],
 });
 

@@ -27,7 +27,7 @@ export default {
 				this.message = "Tipo de arquivo não aceito!";
 			}
 		},
-
+		/*
 		importCSV() {
 			this.csvLoading = true;
 			let formData = new FormData();
@@ -52,6 +52,33 @@ export default {
 					console.log(err.response);
 					this.csvLoading = false;
 				});
-		},
+		},*/
+		importCSV() {
+			this.csvLoading = true;
+			let formData = new FormData();
+		
+			formData.append('file', this.csvFile);
+		
+			console.log(this.csvFile);  // Verifica se o arquivo está correto
+		
+			axios
+				.post("/api/import", formData, {
+					headers: { authorization: `bearer ${this.authToken}` },
+				})
+				.then((response) => {
+					console.log(response.data);
+					Swal.fire({
+						title: "Arquivo importado com sucesso!",
+						text: "Seus dados serão mostrados no sistema dentro de alguns minutos.",
+						icon: "success",
+						showConfirmButton: true,
+					});
+				})
+				.catch((err) => {
+					console.log(err.response);
+					this.csvLoading = false;
+				});
+		}
+		
 	},
 };

@@ -84,6 +84,14 @@ class DataImport implements
 				return "Fazenda 4B";
 			case 5:
 				return "Fazenda 5C";
+			case 11:
+				return "Fazenda 11H";
+			case 12:
+				return "Fazenda 12I";
+			case 13:
+				return "Fazenda 13J";
+			case 14:
+				return "Fazenda 14K";
 			default:
 				return;
 		}
@@ -101,10 +109,19 @@ class DataImport implements
 		$data = $this->previousCollectGenerator($rows);
 
 		$current_date = date('Y/m/d');
+		/*
+		// Exibir as primeiras 5 linhas de $data
+		$counter = 0;
+		foreach ($data as $row) {
+			print_r($row); // Imprime a linha no terminal
+			$counter++;
+			if ($counter == 5) break; // Para após 5 iterações
+		}
+		*/
 
 		foreach ($data as $row) {
 			// create a new property or get an existent
-			$property = Property::firstOrCreate([
+			/*$property = Property::firstOrCreate([
 				'id' 			=> $row['faz'],
 				'name' 			=> $this->check_farm_identifier(intval($row['faz'])),
 				'owner_name'	=> 'CEPLAC',
@@ -112,6 +129,26 @@ class DataImport implements
 				'status'		=> true,
 				'city'			=> 'Ilhéus',
 				'uf'			=> 'BA',
+			]);*/
+			// Verifique se o nome está retornando null
+			$farmName = $this->check_farm_identifier(intval($row['faz']));
+    
+			// Se for null, defina um valor padrão ou lance uma exceção
+			if (is_null($farmName)) {
+				$farmName = '11'; // ou trate de outra forma
+				// Ou, se desejar parar a execução com um erro:
+				// throw new Exception("O nome da propriedade não pode ser nulo para o ID: " . $row['faz']);
+			}
+		
+			// Crie a propriedade
+			$property = Property::firstOrCreate([
+				'id'           => $row['faz'],
+				'name'         => $farmName,
+				'owner_name'   => 'CEPLAC',
+				'owner_id'     => 1,
+				'status'       => true,
+				'city'         => 'Ilhéus',
+				'uf'           => 'BA',
 			]);
 
 			// associate geolocation if the property doesn't have one yet
@@ -125,79 +162,124 @@ class DataImport implements
 					'geolocation_id' => $property_geolocation->id,
 				]);
 			}
-
+			/*
 			$homogeneous_area = HomogeneousArea::firstOrCreate([
 				'label' => "AH " . strval($row['ah']) . " - Fazenda " . $property->id,
 				'property_id' => $property->id
-			]);
+			]);*/
+			//Modificado
+			if (isset($row['ah'])) {
+				$homogeneous_area = HomogeneousArea::firstOrCreate([
+					'label' => "AH " . strval($row['ah']) . " - Fazenda " . $property->id,
+					'property_id' => $property->id
+				]);
+			} else {
+				// Tratar o caso onde 'AH' não existe, se necessário
+				// Exemplo: criar uma área homogênea padrão ou lançar uma exceção
+				$homogeneous_area = HomogeneousArea::firstOrCreate([
+					'label' => "AH - Fazenda " . $property->id,
+					'property_id' => $property->id
+				]);
+			}//Modificado
+
 
 			// create new stratum if it does't exist
+			/*
 			$stratum = Stratum::firstOrCreate([
 				'label' => "UO " . strval($row['uo']) . " - " . $homogeneous_area->label,
 				'homogeneous_area_id' => $homogeneous_area->id,
-			]);
+			]);*/
+			// Modificado
+			if (isset($row['uo'])) {
+				// Se 'UO' existir no array, criar ou buscar o estrato normalmente
+				$stratum = Stratum::firstOrCreate([
+					'label' => "UO " . strval($row['uo']) . " - " . $homogeneous_area->label,
+					'homogeneous_area_id' => $homogeneous_area->id,
+				]);
+			} else {
+				// Tratar o caso onde 'UO' não existe, se necessário
+				// Exemplo: criar um estrato padrão ou lançar uma exceção
+				$stratum = Stratum::firstOrCreate([
+					'label' => "UO - " . $homogeneous_area->label,
+					'homogeneous_area_id' => $homogeneous_area->id,
+				]);
+			}
+			// Modificado
+
 
 			// $label = "PA " . $row['pa'] . " - UO " . $stratum ->id;
-			$sampling_point = SamplingPoint::where('label', $row['pa'])->latest()->first();
+			//$sampling_point = SamplingPoint::where('label', $row['pa'])->latest()->first();
+			// Modificado
+			if (isset($row['pa'])) {
+				// Se 'PA' existir no array, buscar o ponto de amostragem normalmente
+				$sampling_point = SamplingPoint::where('label', $row['pa'])->latest()->first();
+			} else {
+				// Tratar o caso onde 'PA' não existe, se necessário
+				// Exemplo: criar um ponto de amostragem padrão ou lançar uma exceção
+				// Nesse exemplo, definimos 'PA' como um valor padrão ou vazio, se apropriado
+				$sampling_point = SamplingPoint::where('label', 'PA')->latest()->first();
+			}
+			// Modificado
+
 
 			if (!$sampling_point) {
 				$geolocation = Geolocation::create([
 					'latitude' => '1',
 					'longitude' => '1',
 				]);
-
+			
+				// Verificações para criar o SamplingPoint
 				$sampling_point = SamplingPoint::create([
-					'label' 			=> $row['pa'],
-					'ini_period' 		=> $row['periodo'],
-					'status'			=> true,
-					'harvest'			=> $row['safra'],
-					'year'				=> $row['ano'],
-					'property_id' 		=> $property->id,
-					'stratum_id'		=> $stratum->id,
-					'geolocation_id' 	=> $geolocation->id,
-					'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
+					'label' => isset($row['pa']) ? $row['pa'] : 'PA ',
+					'ini_period' => isset($row['periodo']) ? $row['periodo'] : 0,
+					'status' => true,
+					'harvest' => isset($row['safra']) ? $row['safra'] : 0,
+					'year' => isset($row['ano']) ? $row['ano'] : 0,
+					'property_id' => $property->id,
+					'stratum_id' => $stratum->id,
+					'geolocation_id' => $geolocation->id,
+					'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : null,
 				]);
-
+			
 				// $sampling_point->geolocation()->associate($geolocation);
 			} else {
 				if ($sampling_point->property_id === $property->id) {
+					// Verificações para atualizar o SamplingPoint
 					$sampling_point->update([
-						'label' 			=> $row['pa'],
-						'ini_period' 		=> $row['periodo'],
-						'status'			=> true,
-						'harvest'			=> $row['safra'],
-						'year'				=> $row['ano'],
-						'property_id' 		=> $sampling_point->property_id,
-						'stratum_id'		=> $sampling_point->stratum_id,
-						// 'geolocation_id' 	=> null,
-						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
+						'label' => isset($row['pa']) ? $row['pa'] : $sampling_point->label,
+						'ini_period' => isset($row['periodo']) ? $row['periodo'] : $sampling_point->ini_period,
+						'status' => true,
+						'harvest' => isset($row['safra']) ? $row['safra'] : $sampling_point->harvest,
+						'year' => isset($row['ano']) ? $row['ano'] : $sampling_point->year,
+						'property_id' => $sampling_point->property_id,
+						'stratum_id' => $sampling_point->stratum_id,
+						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : $sampling_point->lastVisit,
 					]);
 				} else if ($sampling_point->property_id !== $property->id) {
 					$sampling_point = SamplingPoint::create([
-						'label' 			=> $row['pa'],
-						'ini_period' 		=> $row['periodo'],
-						'status'			=> true,
-						'harvest'			=> $row['safra'],
-						'year'				=> $row['ano'],
-						'property_id' 		=> $property->id,
-						'stratum_id'		=> $stratum->id,
-						// 'geolocation_id' 	=> $geolocation->id,
-						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
+						'label' => isset($row['pa']) ? $row['pa'] : 'PA ',
+						'ini_period' => isset($row['periodo']) ? $row['periodo'] : 0,
+						'status' => true,
+						'harvest' => isset($row['safra']) ? $row['safra'] : 0,
+						'year' => isset($row['ano']) ? $row['ano'] : 0,
+						'property_id' => $property->id,
+						'stratum_id' => $stratum->id,
+						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : null,
 					]);
 				} else {
 					$sampling_point->update([
-						'label' 			=> $row['pa'],
-						'ini_period' 		=> $row['periodo'],
-						'status'			=> true,
-						'harvest'			=> $row['safra'],
-						'year'				=> $row['ano'],
-						'property_id' 		=> $sampling_point->property_id,
-						'stratum_id'		=> $sampling_point->stratum_id,
-						// 'geolocation_id' 	=> null,
-						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
+						'label' => isset($row['pa']) ? $row['pa'] : $sampling_point->label,
+						'ini_period' => isset($row['periodo']) ? $row['periodo'] : $sampling_point->ini_period,
+						'status' => true,
+						'harvest' => isset($row['safra']) ? $row['safra'] : $sampling_point->harvest,
+						'year' => isset($row['ano']) ? $row['ano'] : $sampling_point->year,
+						'property_id' => $sampling_point->property_id,
+						'stratum_id' => $sampling_point->stratum_id,
+						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : $sampling_point->lastVisit,
 					]);
 				}
 			}
+			
 
 			// tree of visit
 			$tree = Tree::firstOrCreate([
@@ -256,6 +338,8 @@ class DataImport implements
 			// cocoa fruit
 			$bobbin = Bobbin::create([
 				'total' 		=> $row['0_21'] ? $row['0_21'] : 0,
+				'loss' 			=> $row['per_0_21'] ? $row['per_0_21'] : 0,
+				'piece' 		=> $row['peco_0_21'] ? $row['peco_0_21'] : 0,
 			]);
 
 			$small = Small::create([
@@ -267,13 +351,16 @@ class DataImport implements
 
 			$medium = Medium::create([
 				'total' 		=> $row['42_63'] ? $row['42_63'] : 0,
+				'rotten' 		=> $row['pod_42_63'] ? $row['pod_42_63'] : 0,
+				'rat' 			=> $row['rat_42_63'] ? $row['rat_42_63'] : 0,
+				'witchs_broom' 	=> $row['vas_42_63'] ? $row['vas_42_63'] : 0,
 				'loss' 			=> $row['per_42_63'] ? $row['per_42_63'] : 0,
 				'piece' 		=> $row['peco_42_63'] ? $row['peco_42_63'] : 0,
 			]);
 
 			$medium2 = Medium2::create([
 				'total' 		=> $row['63_84'] ? $row['63_84'] : 0,
-				'harvested' 	=> $row['c_63_84'] ? $row['c_63_84'] : 0,
+				//'harvested' 	=> $row['c_63_84'] ? $row['c_63_84'] : 0,
 				'rotten' 		=> $row['pod_63_84'] ? $row['pod_63_84'] : 0,
 				'rat' 			=> $row['rat_63_84'] ? $row['rat_63_84'] : 0,
 				'witchs_broom' 	=> $row['vas_63_84'] ? $row['vas_63_84'] : 0,

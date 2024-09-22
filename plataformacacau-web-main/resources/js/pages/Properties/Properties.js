@@ -27,6 +27,11 @@ export default {
 					ratio: 2.0,
 				},
 			},
+			exportProperty: {
+				id: "",
+				startDate: '',
+				endDate: '',
+			},
 			city: {},
 			cities: {},
 			state: {},
@@ -38,8 +43,12 @@ export default {
 			fields: Fields,
 			paginationOptions: PaginationOptions,
 			//Modificado
-			xlsLoading: false,
-			pdfLoading: false,
+			xlsLoading: null,
+			pdfLoading: null,
+			startDate: '',//Antes era NULL
+			endDate: '',//Antes era NULL
+			startDates: [],
+			endDates: [],
 			//Modificado
 		};
 	},
@@ -48,6 +57,27 @@ export default {
 		totalProperties() {
 			return this.properties.length > 0;
 		},
+		filteredStartDates() {
+			if (!this.endDate) {
+			  return this.startDates; // Se não há endDate selecionada, retorna todas as startDates
+			}
+			const endYear = parseInt(this.endDate.split('/')[1], 10); // Extrai o ano de endDate
+			return this.startDates.filter((date) => {
+			  const startYear = parseInt(date.split('/')[1], 10); // Extrai o ano de startDate
+			  return startYear < endYear; // Retorna datas menores ou iguais ao ano da endDate
+			});
+		  },
+		  // Filtra as endDates para não exibir opções menores que a startDate selecionada
+		  filteredEndDates() {
+			if (!this.startDate) {
+			  return this.endDates; // Se não há startDate selecionada, retorna todas as endDates
+			}
+			const startYear = parseInt(this.startDate.split('/')[1], 10); // Extrai o ano de startDate
+			return this.endDates.filter((date) => {
+			  const endYear = parseInt(date.split('/')[1], 10); // Extrai o ano de endDate
+			  return endYear > startYear; // Retorna datas maiores ou iguais ao ano da startDate
+			});
+		  },
 	},
 
 	created() {
@@ -60,6 +90,7 @@ export default {
 
 	async mounted() {
 		await this.getStates();
+		await this.fetchVisitDates();
 	},
 
 	methods: {
@@ -98,6 +129,12 @@ export default {
 			this.editMode = false;
 			$("#modalProperties").modal("show");
 		},
+		addModalExport(property) {
+			let _this = this;
+			this.clearFormExport();
+			this.exportProperty.id = property.id;
+			$("#modalPropertiesExport").modal("show");
+		},
 
 		async getStates() {
 			await axios
@@ -123,6 +160,7 @@ export default {
 				.then((response) => {
 					this.cities = response.data;
 					this.loadingCities = false;
+					console.log(this.cities);
 				})
 				.catch((err) => {
 					this.loadingCities = false;
@@ -139,7 +177,7 @@ export default {
 				})
 				.then((response) => {
 					if (response.status === 200) {
-						console.log(response.data.data);
+						console.log('Dados recebidos:', response.data.data);
 						this.properties = response.data.data;
 					} else {
 						console.log(response);
@@ -165,6 +203,7 @@ export default {
 							showConfirmButton: false,
 							timer: 1500,
 						});
+						//this.properties.push(response.data.data); 
 					}
 					this.clearForm();
 					this.index();
@@ -291,8 +330,15 @@ export default {
 
 			$("#modalProperties").modal("hide");
 		},
+
+		clearFormExport() {
+			this.startDate='',
+			this.endDate='',
+
+			$("#modalPropertiesExport").modal("hide");
+		},
 		//Modificado
-		
+		/*
 		exportPropertyXls(propertyId) {
 
 			this.xlsLoading = true;
@@ -310,10 +356,29 @@ export default {
 					console.log(err.response);
 					this.xlsLoading = false;
 				});
+		},*/
+		exportPropertyXls() {
+			this.xlsLoading = this.exportProperty.id;
+			const fileFormat = "xls";
+			const { id, startDate, endDate } = this.exportProperty; // Pega os dados da exportação
+
+			axios
+				.post("/api/v1/exportProperty-xls", { propertyId: id, startDate, endDate }, {
+					responseType: "arraybuffer",
+					headers: { authorization: `bearer ${this.authToken}` },
+				})
+				.then(response => {
+					this.downloadFile(response, "property_" + id, fileFormat);
+					this.xlsLoading = null;
+				})
+				.catch(err => {
+					console.log(err.response);
+					this.xlsLoading = null;
+				});
 		},
 
 		exportPropertyPdf(propertyId) {
-			this.pdfLoading = true;
+			this.pdfLoading = propertyId;
 			const fileFormat = "pdf";
 			let data = {
 				property_id: propertyId
@@ -326,11 +391,11 @@ export default {
 				})
 				.then(response => {
 					this.downloadFile(response, "property_" + propertyId, fileFormat);
-					this.pdfLoading = false;
+					this.pdfLoading = null;
 				})
 				.catch(err => {
 					console.log(err.response);
-					this.pdfLoading = false;
+					this.pdfLoading = null;
 				});
 		},
 		
@@ -355,6 +420,9 @@ export default {
 				window.URL.revokeObjectURL(data);
 			}, 100);
 		},*/
+
+		
+
 		downloadFile(response, filename, fileformat) {
 			let type = "";
 			switch (fileformat) {
@@ -387,7 +455,132 @@ export default {
 				window.URL.revokeObjectURL(data);
 			}, 100);
 		},
+		/*
+		async fetchVisitDates() {
+			try {
+			  const response = await axios.get('/api/get-visit-dates');
+			  const { oldestVisit, latestVisit } = response.data;
+
+			  // Gerar as opções de datas apenas se houver visitas
+			  if (oldestVisit && latestVisit) {
+				this.generateDateOptions(oldestVisit, latestVisit);
+			  }
+			} catch (error) {
+			  if (error.response && error.response.status === 404) {
+				// Exibir o alerta apenas se o modal foi aberto e não houver visitas
+				alert('Nenhuma visita encontrada no banco de dados.');
+			  } else {
+				console.error(error);
+			  }
+			}
+		  },
+
+		  generateDateOptions(oldestVisit, latestVisit) {
+			const oldestYear = new Date(oldestVisit).getFullYear();
+			const latestYear = new Date(latestVisit).getFullYear();
+			
+			this.startDates = [];
+    		this.endDates = [];
+
+			// Gerar opções de outubro e setembro de cada ano
+			for (let year = oldestYear; year <= latestYear; year++) {
+			  this.startDates.push(`Outubro/${year}`);
+			  this.endDates.push(`Setembro/${year}`);
+			}
+		  },
+		*/
+
+		async handleExport() {
+			console.log(this.startDate);
+			console.log(this.endDate);
+			try {
+			  // Verificar se há datas para exportação
+			  if (this.startDates.length === 0 || this.endDates.length === 0) {
+				return;
+			  }
+			  this.exportProperty.startDate = this.startDate;
+			  this.exportProperty.endDate = this.endDate;
+			  
+			  // Chamar a função de exportação, passando os parâmetros necessários
+			  this.exportPropertyXls(this.property.id, this.startDate, this.endDate);
+			} catch (error) {
+			  console.error(error);
+			}
+		  },
+
+		  /*
+		  index() {
+			this.loading = true;
+
+			axios
+				.get("/api/v1/properties", {
+					headers: { authorization: `bearer ${this.authToken}` },
+				})
+				.then((response) => {
+					if (response.status === 200) {
+						console.log('Dados recebidos:', response.data.data);
+						this.properties = response.data.data;
+					} else {
+						console.log(response);
+					}
+					this.loading = false;
+				})
+				.catch((err) => {
+					console.log(err);
+					this.loading = false;
+				});
+		},
+		  */
+		  
+		  async fetchVisitDates() {
+			try {
+			  const response = await axios.get('/api/v1/get-visit-dates', {
+												headers: { authorization: `bearer ${this.authToken}` },
+											});
+			  const { oldestVisit, latestVisit } = response.data;
+	  
+			  if (oldestVisit && latestVisit) {
+				this.generateDateOptions(oldestVisit, latestVisit);
+			  } else {
+				// Limpar as datas se não houver visitas
+				this.startDates = [];
+				this.endDates = [];
+			  }
+			} catch (error) {
+			  if (error.response && error.response.status === 404) {
+				// Limpar as datas se não houver visitas
+				this.startDates = [];
+				this.endDates = [];
+			  } else {
+				console.error(error);
+			  }
+			}
+		  },
+	  
+		  generateDateOptions(oldestVisit, latestVisit) {
+			const oldestYear = new Date(oldestVisit).getFullYear();
+			const latestYear = new Date(latestVisit).getFullYear();
+	  
+			this.startDates = [];
+			this.endDates = [];
+	  
+			for (let year = oldestYear; year <= latestYear; year++) {
+				// Adicionar apenas se não for o último valor de startDates
+				if (year !== latestYear) {
+					this.startDates.push(`Outubro/${year}`);
+				}
 		
+				// Adicionar apenas se não for o primeiro valor de endDates
+				if (year !== oldestYear) {
+					this.endDates.push(`Setembro/${year}`);
+				}
+			}
+		  },
+
+
 		//Modificado
-	},
+	},/*Reponsável por sumir com os estados e o erro 404 assim que vai para propriedades
+	mounted() {
+		this.fetchVisitDates();
+	  },*/
 };

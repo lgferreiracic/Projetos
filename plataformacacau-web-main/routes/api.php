@@ -13,8 +13,8 @@ Route::group([
 		->name('change_password');
 });
 
-// Route::post('import', 'API\ReportController@import_xsl');
-Route::get('import', 'API\ReportController@import_xsl');
+Route::post('import', 'API\ReportController@import_xsl');
+//Route::get('import', 'API\ReportController@import_xsl');
 Route::post('v1/login', 'API\AuthController@login')->name('auth.login');
 Route::post('v1/signup', 'API\AuthController@register')->name('auth.register');
 Route::post('v1/reset', 'API\AuthController@send_password_reset_link');
@@ -130,6 +130,10 @@ Route::group([
 	//Modificado
 	Route::post('export-pdf2', 'ReportController@export_pdf2')
 		->name('export-pdf2');
+	Route::get('get-visit-dates', 'TreeVisitController@get_visit_dates')
+		->name('get-visit-dates');
+	Route::post('exportProperty-xls', 'ReportController@exportProperty_xls')
+		->name('exportProperty-xls');
 	//Modificado
 
 	Route::get('app', 'MobileController@index')

@@ -7,7 +7,7 @@ use App\Jobs\ImportSpreadSheet;
 use App\Imports\DataImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-
+/*
 class ExcelImport
 {
 	// public function import(string $original_name, string $ext)
@@ -17,4 +17,13 @@ class ExcelImport
 		$importJob = new ImportSpreadSheet();
 		dispatch($importJob);
 	}
+}*/
+class ExcelImport
+{
+    public function import(string $file_name)
+    {
+        $importJob = new ImportSpreadSheet($file_name);
+        dispatch($importJob);
+    }
 }
+

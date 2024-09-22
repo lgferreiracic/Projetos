@@ -20,7 +20,7 @@ class Medium2 extends Model
 	 */
 	protected $fillable = [
 		'total',
-		// 'harvested',
+		//'harvested',
 		'rotten',
 		'rat',
 		'witchs_broom',

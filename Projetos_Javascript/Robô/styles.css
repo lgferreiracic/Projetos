@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #083A4F;
+    color: white;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+}
+
+/* Tabuleiro e Resultados lado a lado */
+.tabuleiro-resultados {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.area-tabuleiro {
+    background-color: #5A7A9D;
+    height: 400px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.resultados {
+    background-color: #D8E2EC;
+    color: black;
+    padding: 10px;
+    height: 400px;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Controles, Direcionais e BFS abaixo */
+.controle-direcional-bfs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+}
+
+.controles {
+    display: grid;
+    gap: 10px;
+}
+
+.coord-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+button {
+    background-color: #5A7A9D;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #496a89;
+}
+
+.direcionais {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+
+.middle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.bfs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5A7A9D;
+    height: 100px;
+    width: 100%;
+    border-radius: 10px;
+}

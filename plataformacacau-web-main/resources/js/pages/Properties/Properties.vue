@@ -117,26 +117,40 @@
 									<i class="fas fa-edit fa-sm"></i>
 								</button>
 								<!--Modificado-->
+								<!--
 								<form @submit.prevent="exportPropertyXls(props.row.id)">
 									<button
 										title="Exportar XLS"
 										type="submit"
 										class="btn btn-md btn-warning"
-										style="margin: 0.2rem"
+										style="margin: 0.2rem; background-color: #55A97F; border-color: #55A97F;"
 									>
 										<i class="fas fa-file-excel"></i>
 									</button>
 								</form>
-								<form @submit.prevent="exportPropertyPdf(props.row.id)">
-									<button
-										title="Exportar PDF"
-										type="submit"
-										class="btn btn-md btn-danger"
-										style="margin: 0.2rem"
+								-->
+								<button
+										title="Exportar XLS"
+										class="btn btn-md btn-warning"
+										style="margin: 0.2rem; background-color: #55A97F; border-color: #55A97F;"
+										@click="addModalExport(props.row)"
 									>
-										<i class="fas fa-file-pdf"></i>
-									</button>
-								</form>
+										<i class="fas fa-file-excel"></i>
+								</button>
+								<template>
+									<form @submit.prevent="exportPropertyPdf(props.row.id)">
+										<button
+											title="Exportar PDF"
+											type="submit"
+											class="btn btn-md btn-danger"
+											style="margin: 0.2rem"
+											:disabled="pdfLoading === props.row.id"
+										>
+											<span v-if="pdfLoading === props.row.id" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+											<i v-else class="fas fa-file-pdf"></i>
+										</button>
+									</form>
+								</template>
 								<!--Modificado-->
 								<router-link
 									v-if="userRole === 'pre-registered'"
@@ -189,8 +203,7 @@
 						</div>
 					</template>
 				</vue-good-table>
-			</div>
-
+			</div>	
 			<div
 				class="modal fade"
 				id="modalProperties"
@@ -422,6 +435,147 @@
 					</div>
 				</div>
 			</div>
+
+			<template>
+				<div class="modal fade" id="modalPropertiesExport" ref="modal" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title">EXPORTAÇÃO DE DADOS</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<div class="modal-body">
+						<form @submit.prevent="handleExport">
+							<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="startDate">Selecione o período inicial</label>
+								<select id="startDate" class="form-control" v-model="startDate">
+								<option v-if="startDates.length === 0">Não há visitas cadastradas</option>
+								<!-- Filtro para remover datas maiores que o endDate -->
+								<option v-for="date in filteredStartDates" :key="date" :value="date">{{ date }}</option>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="endDate">Selecione o período final</label>
+								<select id="endDate" class="form-control" v-model="endDate">
+								<option v-if="endDates.length === 0">Não há visitas cadastradas</option>
+								<!-- Filtro para remover datas menores que o startDate -->
+								<option v-for="date in filteredEndDates" :key="date" :value="date">{{ date }}</option>
+								</select>
+							</div>
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+							<button 
+								type="submit" 
+								class="btn btn-primary" 
+								:disabled="startDates.length === 0 || endDates.length === 0 || xlsLoading === exportProperty.id">
+								<span v-if="xlsLoading && xlsLoading === exportProperty.id" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+								<span v-if="xlsLoading && xlsLoading === exportProperty.id">Carregando...</span>
+								<span v-else>Exportar para XLS</span>
+							</button>
+							</div>
+						</form>
+						</div>
+					</div>
+					</div>
+				</div>
+			</template>
+
+			<!--Modal com opções fixas
+			<template>
+				<div
+					class="modal fade"
+					id="modalPropertiesExport"
+					ref="modal"
+					tabindex="-1"
+					role="dialog"
+					aria-labelledby="modalPropertiesLabel"
+					aria-hidden="true"
+				>
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modalPropertiesLabel">EXPORTAÇÃO DE DADOS</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form @submit.prevent="exportPropertyXls(property.id, startDate, endDate)">
+									Formulário de seleção de período 
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="startDate">Selecione o período inicial</label>
+											<select id="startDate" class="form-control" v-model="startDate">
+												<option value="2022-10-01">Outubro/2022</option>
+												<option value="2023-10-01">Outubro/2023</option>
+											</select>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="endDate">Selecione o período final</label>
+											<select id="endDate" class="form-control" v-model="endDate">
+												<option value="2023-09-30">Setembro/2023</option>
+												<option value="2024-09-30">Setembro/2024</option>
+											</select>
+										</div>
+									</div>
+									Botões de ação do modal 
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+										<button type="submit" class="btn btn-primary">Exportar para XLS</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>-->
+					<!-- Modal de Exportação XLS (Usando calendário)-->
+					<!--
+					<div
+						class="modal fade"
+						id="modalPropertiesExport"
+						ref="modal"
+						tabindex="-1"
+						role="dialog"
+						aria-labelledby="modalPropertiesLabel"
+						aria-hidden="true"
+					>
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="modalPropertiesLabel">EXPORTAÇÃO DE DADOS</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form @submit.prevent="exportPropertyXls(property.id, startDate, endDate)">
+										Formulário de seleção de período 
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<label for="startDate">Selecione o período inicial</label>
+												<input id="startDate" type="date" class="form-control" v-model="startDate" />
+											</div>
+											<div class="form-group col-md-6">
+												<label for="endDate">Selecione o período final</label>
+												<input id="endDate" type="date" class="form-control" v-model="endDate" />
+											</div>
+										</div>
+										 Botões de ação do modal 
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+											<button type="submit" class="btn btn-primary">Exportar para XLS</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				-->
 		</div>
 	</div>
 </template>

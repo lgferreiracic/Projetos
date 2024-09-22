@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Exports\ExcelExport;
+use App\Exports\ExcelPropertyExport; //Modificado
 use App\Imports\ExcelImport;
 use App\Exports\BlockExport;
 use App\Jobs\ImportSpreadSheet;
@@ -18,7 +19,9 @@ use App\Models\Stratum;
 use App\Models\Property;
 use App\Models\TreeVisit;
 use App\Models\SamplingPoint;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+set_time_limit(0);
 class ReportController extends BaseController
 {
 	public function export_pdf(Request $request)
@@ -90,6 +93,59 @@ class ReportController extends BaseController
 		// TODO
 		return Excel::download(new ExcelExport, 'plataforma-cacau.xlsx');
 	}
+	//Modificado
+	public function exportProperty_xls(Request $request)
+	{
+		try {
+			// Validação dos parâmetros
+			Log::info('Iniciando exportação XLS.', ['request_data' => $request->all()]);
+	
+			$request->validate([
+				'propertyId' => 'required|integer|exists:properties,id',
+				'startDate' => 'required|string', // Outubro/Ano
+				'endDate' => 'required|string',   // Setembro/Ano
+			]);
+	
+			$propertyId = $request->input('propertyId');
+			$startDateInput = $request->input('startDate'); // Exemplo: "Outubro/2023"
+			$endDateInput = $request->input('endDate');     // Exemplo: "Setembro/2024"
+	
+			Log::info('Datas recebidas:', ['startDate' => $startDateInput, 'endDate' => $endDateInput]);
+	
+			// Mapeamento de meses de português para inglês
+			$months = [
+				'Janeiro' => 'January', 'Fevereiro' => 'February', 'Março' => 'March',
+				'Abril' => 'April', 'Maio' => 'May', 'Junho' => 'June',
+				'Julho' => 'July', 'Agosto' => 'August', 'Setembro' => 'September',
+				'Outubro' => 'October', 'Novembro' => 'November', 'Dezembro' => 'December'
+			];
+	
+			// Converter o mês de startDate
+			list($startMonth, $startYear) = explode('/', $startDateInput);
+			$startMonthEnglish = $months[$startMonth] ?? null;
+			if (!$startMonthEnglish) {
+				throw new \Exception("Mês de início inválido: $startMonth");
+			}
+			$startDate = Carbon::createFromFormat('F/Y', $startMonthEnglish.'/'.$startYear)->startOfMonth();
+	
+			// Converter o mês de endDate
+			list($endMonth, $endYear) = explode('/', $endDateInput);
+			$endMonthEnglish = $months[$endMonth] ?? null;
+			if (!$endMonthEnglish) {
+				throw new \Exception("Mês de fim inválido: $endMonth");
+			}
+			$endDate = Carbon::createFromFormat('F/Y', $endMonthEnglish.'/'.$endYear)->endOfMonth();
+	
+			Log::info('Datas convertidas:', ['startDate' => $startDate->format('Y-m-d'), 'endDate' => $endDate->format('Y-m-d')]);
+	
+			// Retornar o arquivo Excel filtrado pela propriedade e intervalo de tempo
+			return Excel::download(new ExcelPropertyExport($propertyId, $startDate, $endDate), 'plataforma-cacau.xlsx');
+		} catch (\Exception $e) {
+			Log::error('Erro ao exportar XLS.', ['error_message' => $e->getMessage()]);
+			return response()->json(['error' => 'Erro ao gerar o relatório'], 500);
+		}
+	}
+	//Modificado
 
 	public function export_csv(Request $request)
 	{
@@ -112,37 +168,64 @@ class ReportController extends BaseController
 			]);
 		}
 	}
-
+	/*
 	public function import_xsl(Request $request)
 	{
 		$import = new ExcelImport();
 		return $import->import($request);
-		// try {
-		// 	if ($request->hasFile('file')) {
-		// 		$file = $request->file('file');
-		// 		$original_name = $file->getClientOriginalName();
-		// 		$ext = $file->getClientOriginalExtension();
+		try {
+		if ($request->hasFile('file')) {
+		 		$file = $request->file('file');
+		 		$original_name = $file->getClientOriginalName();
+			$ext = $file->getClientOriginalExtension();
 
-		// 		$file_name = $original_name;
+		 		$file_name = $original_name;
 
-		// 		Storage::disk('local')->put($file_name, file_get_contents($file));
+		 		Storage::disk('local')->put($file_name, file_get_contents($file));
 
-		// 		$import = new ExcelImport();
-		// 		$import->import($original_name, $ext);
+		 		$import = new ExcelImport();
+				$import->import($original_name, $ext);
 
-		// 		return response()->json([
-		// 			'message' => 'File uploaded successfully'
-		// 		], 200);
-		// 	}
-		// } catch(\Exception $e) {
-		// 	return response()->json([
-		// 		'message' => $e->getMessage(),
-		// 	]);
-		// }
+		 		return response()->json([
+					'message' => 'File uploaded successfully'
+		 		], 200);
+		 	}
+		 } catch(\Exception $e) {
+		 	return response()->json([
+		 		'message' => $e->getMessage(),
+		 	]);
+		 }
+	}*/
+	public function import_xsl(Request $request)
+	{
+		try {
+			if ($request->hasFile('file')) {
+				$file = $request->file('file');
+				$original_name = $file->getClientOriginalName();
+				$file_name = time() . '_' . $original_name; // Nome único
+				$file_path = Storage::disk('local')->put($file_name, file_get_contents($file));
+
+				$import = new ExcelImport();
+				$import->import($file_name);
+
+				return response()->json([
+					'message' => 'File uploaded and imported successfully'
+				], 200);
+			} else {
+				return response()->json(['message' => 'No file uploaded'], 400);
+			}
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => $e->getMessage(),
+			], 500);
+		}
 	}
 
+
+
+	/*
 	public function import_csv(Request $request)
 	{
 		// TODO
-	}
+	}*/
 }
