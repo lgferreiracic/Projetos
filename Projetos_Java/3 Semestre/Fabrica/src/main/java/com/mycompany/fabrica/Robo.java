@@ -37,7 +37,7 @@ public class Robo{// Classe representando o robo
         }
         else{
                 System.out.printf("Existe um obstaulo nessa posicao\n");
-                AuxiliarConsole.esperar();
+                //AuxiliarConsole.esperar();
         }
 
     }

@@ -51,13 +51,13 @@ class PropertyController extends BaseController
 	public function index()
 	{
 		$user_id = Auth::id();
-		/*
+		
 		$properties = Property::where('owner_id', '=', $user_id)
 			->orderBy('id', 'asc')
 			->get();
-		*/
+		
 		//Modificado(Verificar a questão do id)
-		$properties = Property::orderBy('id', 'asc')->get();
+		//$properties = Property::orderBy('id', 'asc')->get();
 		//Modificado
 		return $this->send_response(PropertyResource::collection($properties));
 	}

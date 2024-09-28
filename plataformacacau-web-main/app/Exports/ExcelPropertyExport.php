@@ -2,11 +2,11 @@
 
 namespace App\Exports;
 
-use App\Http\Resources\SamplingPointResource;
 use App\Models\SamplingPoint;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Illuminate\Support\Facades\Log;
 
 class ExcelPropertyExport implements WithMultipleSheets, ShouldQueue
 {
@@ -25,18 +25,12 @@ class ExcelPropertyExport implements WithMultipleSheets, ShouldQueue
 
     public function sheets(): array
     {
-        $sheets = [];
-        
-        // Filtrar Sampling Points com base no propertyId
-        $sampling_points = SamplingPoint::whereHas('stratum', function($query) {
-            $query->where('property_id', $this->propertyId);
-        })->get();
+        // Aqui retornamos apenas uma instância de ExcelPropertySheet
+        Log::info('Exporting data for property', [
+            'property_id' => $this->propertyId,
+        ]);
 
-        // Gerar uma planilha por ponto amostral
-        foreach ($sampling_points as $sampling_point) {
-            $sheets[] = new ExcelPropertySheet($sampling_point, $this->startDate, $this->endDate);
-        }
-
-        return $sheets;
+        // Passa o ID da propriedade, data de início e fim para a planilha
+        return [new ExcelPropertySheet($this->propertyId, $this->startDate, $this->endDate)];
     }
 }

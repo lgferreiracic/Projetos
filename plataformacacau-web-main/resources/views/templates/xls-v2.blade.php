@@ -1,12 +1,10 @@
 <table>
     <thead>
         <tr>
-            <th>Ano</th>
-            <th>Periodo</th>
             <th>Data</th>
             <th>AH</th>
             <th>UO</th>
-            <th>Área</th>
+            <th>PA</th>
             <th>Árvore</th>
             <th>Acima de 210</th>
             <th>189-210</th>
@@ -19,6 +17,12 @@
             <th>42-63</th>
             <th>21-42</th>
             <th>0-21</th>
+            <th>Podre</th>
+            <th>Rato</th>
+            <th>Peco</th>
+            <th>Vas</th>
+            <th>Perda</th>
+            <th>N_Col</th>
             <th>Col Ac</th>
             <th>C 189-210</th>
             <th>C 168-189</th>
@@ -69,12 +73,10 @@
     <tbody>
         @foreach ($data as $key => $tree_visit)
             <tr>
-                <td>{{ $sampling_point->year }}</td>
-                <td>{{ $sampling_point->ini_period }}</td>
                 <td>{{ date('d/m/Y', strtotime($tree_visit->date)) }}</td>
-                <td>{{ $sampling_point->stratum()->first()->homogeneous_area()->first()->id }}</td>
-                <td>{{ $sampling_point->stratum()->first()->id }}</td>
-                <td>{{ $sampling_point->label }}</td>
+                <td>{{ $tree_visit->tree->sampling_point->stratum->homogeneous_area->label }}</td>
+                <td>{{ $tree_visit->tree->sampling_point->stratum->label }}</td>
+                <td>{{ $tree_visit->tree->sampling_point->label }}</td>
                 <td>{{ $tree_visit->tree->label }}</td>
                 <td>{{ $tree_visit->mature4->total }}</td>
                 <td>{{ $tree_visit->mature3->total }}</td>
@@ -87,6 +89,14 @@
                 <td>{{ $tree_visit->medium->total }}</td>
                 <td>{{ $tree_visit->small->total }}</td>
                 <td>{{ $tree_visit->bobbin->total }}</td>
+                <!--Modificado-->
+                <td>{{ $tree_visit->medium2->rotten + $tree_visit->medium3->rotten + $tree_visit->adult->rotten + $tree_visit->adult2->rotten + $tree_visit->mature->rotten + $tree_visit->mature2->rotten + $tree_visit->mature3->rotten + $tree_visit->mature4->rotten}}</td>
+                <td>{{ $tree_visit->medium2->rat + $tree_visit->medium3->rat + $tree_visit->adult->rat + $tree_visit->adult2->rat + $tree_visit->mature->rat + $tree_visit->mature2->rat + $tree_visit->mature3->rat + $tree_visit->mature4->rat}}</td>
+                <td>{{ $tree_visit->small->piece + $tree_visit->medium->piece + $tree_visit->medium2->piece + $tree_visit->medium3->piece}}</td>
+                <td>{{ $tree_visit->medium2->witchs_broom + $tree_visit->medium3->witchs_broom + $tree_visit->adult->witchs_broom + $tree_visit->adult2->witchs_broom + $tree_visit->mature->witchs_broom + $tree_visit->mature2->witchs_broom + $tree_visit->mature3->witchs_broom + $tree_visit->mature4->witchs_broom}}</td>
+                <td>{{ $tree_visit->small->loss + $tree_visit->medium->loss + $tree_visit->medium2->loss + $tree_visit->medium3->loss + $tree_visit->adult->loss + $tree_visit->adult2->loss + $tree_visit->mature->loss + $tree_visit->mature2->loss + $tree_visit->mature3->loss + $tree_visit->mature4->loss}}</td>
+                <td>{{ $tree_visit->medium3->harvested + $tree_visit->adult->harvested + $tree_visit->adult2->harvested + $tree_visit->mature->harvested + $tree_visit->mature2->harvested + $tree_visit->mature3->harvested + $tree_visit->mature4->harvested}}</td>
+                <!--Modificado-->
                 <td>{{ $tree_visit->mature4->harvested }}</td>
                 <td>{{ $tree_visit->mature3->harvested }}</td>
                 <td>{{ $tree_visit->mature2->harvested }}</td>
@@ -131,7 +141,7 @@
                 <td>{{ $tree_visit->mature2->loss }}</td>
                 <td>{{ $tree_visit->mature3->loss }}</td>
                 <td>{{ $tree_visit->mature4->loss }}</td>
-                <td>{{ $sampling_point->harvest }}</td>
+                <td>{{ $tree_visit->tree->sampling_point->harvest }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -20,6 +20,10 @@ class Medium extends Model
 	 */
 	protected $fillable = [
 		'total',
+		//'harvested',//Mod
+		//'rotten',//Mod
+		//'rat',//Mod
+		//'witchs_broom',//Mod
 		'loss',
 		'piece',
 	];

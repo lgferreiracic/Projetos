@@ -435,51 +435,38 @@
 					</div>
 				</div>
 			</div>
-
 			<template>
 				<div class="modal fade" id="modalPropertiesExport" ref="modal" tabindex="-1" role="dialog">
 					<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-						<h5 class="modal-title">EXPORTAÇÃO DE DADOS</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">EXPORTAÇÃO DE DADOS</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form @submit.prevent="handleExport">
+									<div class="form-row">
+										<div class="form-group col-md-12">
+											<label for="datePeriod">Selecione o período</label>
+											<select id="datePeriod" class="form-control" v-model="selectedDatePeriod">
+												<option v-if="datePeriods.length === 0">Não há visitas cadastradas</option>
+												<option v-for="date in datePeriods" :key="date" :value="date">{{ date }}</option>
+											</select>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+										<button type="submit" class="btn btn-primary" :disabled="datePeriods.length === 0 || xlsLoading === exportProperty.id">
+											<span v-if="xlsLoading && xlsLoading === exportProperty.id" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+											<span v-if="xlsLoading && xlsLoading === exportProperty.id">Carregando...</span>
+											<span v-else>Exportar para XLS</span>
+										</button>
+									</div>
+								</form>
+							</div>
 						</div>
-						<div class="modal-body">
-						<form @submit.prevent="handleExport">
-							<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="startDate">Selecione o período inicial</label>
-								<select id="startDate" class="form-control" v-model="startDate">
-								<option v-if="startDates.length === 0">Não há visitas cadastradas</option>
-								<!-- Filtro para remover datas maiores que o endDate -->
-								<option v-for="date in filteredStartDates" :key="date" :value="date">{{ date }}</option>
-								</select>
-							</div>
-							<div class="form-group col-md-6">
-								<label for="endDate">Selecione o período final</label>
-								<select id="endDate" class="form-control" v-model="endDate">
-								<option v-if="endDates.length === 0">Não há visitas cadastradas</option>
-								<!-- Filtro para remover datas menores que o startDate -->
-								<option v-for="date in filteredEndDates" :key="date" :value="date">{{ date }}</option>
-								</select>
-							</div>
-							</div>
-							<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-							<button 
-								type="submit" 
-								class="btn btn-primary" 
-								:disabled="startDates.length === 0 || endDates.length === 0 || xlsLoading === exportProperty.id">
-								<span v-if="xlsLoading && xlsLoading === exportProperty.id" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-								<span v-if="xlsLoading && xlsLoading === exportProperty.id">Carregando...</span>
-								<span v-else>Exportar para XLS</span>
-							</button>
-							</div>
-						</form>
-						</div>
-					</div>
 					</div>
 				</div>
 			</template>

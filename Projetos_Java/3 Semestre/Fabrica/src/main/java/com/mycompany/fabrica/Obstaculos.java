@@ -30,7 +30,7 @@ public class Obstaculos{// Classe representando os obstaculos
         }                        
         else {
                 System.out.printf("Nao e possivel posicionar um obstaculo nessa posicao.\n");
-                AuxiliarConsole.esperar();
+                //AuxiliarConsole.esperar();
         }
     }
 

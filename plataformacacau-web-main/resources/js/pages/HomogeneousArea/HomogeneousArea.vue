@@ -1,13 +1,12 @@
 <template>
 	<div id="HomogeneousArea" class="mt-5 homogeneousAreaWrapper">
 		<div class="admin-content">
-			<div
-				class="admin-header d-flex justify-content-between align-items-center p-2"
-			>
-				<h1>Áreas Homogêneas</h1>
+			<div class="admin-header d-flex align-items-center p-2">
+				<button @click="$router.go(-1)" class="btn btn-back"><i class="fas fa-arrow-left"></i></button>
+				<h1 class="ml-3">Áreas Homogêneas</h1>
 				<button
 					type="button"
-					class="btn btn-agro btn-add"
+					class="btn btn-agro btn-add ml-auto"
 					@click="addModal"
 					v-if="userRole !== 'pre-registered'"
 				>
@@ -232,12 +231,33 @@
 
 	h1 {
 		color: #3d8160;
-
 		font-family: "Lexend", sans-serif;
 		font-weight: 600;
 		font-size: 24px;
+		padding: 16px 0px 16px 16px;
+		margin: auto;
+	}
 
-		padding: 16px 0px 16px 48px;
+	.btn-back {
+		background-color: #25661a;
+		color: #fff;
+		border: none;
+		padding: 6px 12px;
+		margin: 16px 0 16px 48px;
+		border-radius: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #2f6649;
+		}
+	}
+
+	.admin-header {
+		display: flex;
+		align-items: center;
 	}
 
 	.btn-add {

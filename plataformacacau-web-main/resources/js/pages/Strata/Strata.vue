@@ -2,9 +2,15 @@
 	<div id="strata" class="mt-5 operationalUnitWrapper">
 		<div class="admin-content">
 			<div
-				class="admin-header d-flex justify-content-between align-items-center p-2"
+				class="admin-header d-flex align-items-center justify-content-between p-2"
 			>
-				<h1>Unidades Operacionais</h1>
+				<div class="d-flex align-items-center">
+					<button @click="$router.go(-1)" class="btn btn-back">
+						<i class="fas fa-arrow-left"></i>
+					</button>
+					<h1 class="ml-3">Unidades Operacionais</h1> <!-- Adicionada uma margem para o título -->
+				</div>
+				
 				<button
 					type="button"
 					class="btn btn-agro btn-add"
@@ -14,6 +20,7 @@
 					<i class="fas fa-plus"></i>
 				</button>
 			</div>
+
 			<br />
 
 			<div v-if="loading" class="loader-overlay">
@@ -218,7 +225,25 @@
 		font-weight: 600;
 		font-size: 24px;
 
-		padding: 16px 0px 16px 48px;
+		padding: 16px 0px 16px 16px;
+		margin: auto;
+	}
+
+	.btn-back {
+		background-color: #25661a;
+		color: #fff;
+		border: none;
+		padding: 6px 12px;
+		margin: 16px 0 16px 48px;
+		border-radius: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #2f6649;
+		}
 	}
 
 	.btn-add {

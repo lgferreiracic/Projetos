@@ -7,6 +7,7 @@
 			<div
 				class="admin-header d-flex justify-content-between align-items-center p-4"
 			>
+				<button @click="$router.go(-1)" class="btn btn-back"><i class="fas fa-arrow-left"></i></button>
 				<div class="col">
 					<h1>Árvores</h1>
 					<p class="info">
@@ -120,6 +121,24 @@
 		font-weight: 600;
 		font-size: 24px;
 		padding-left: 16px 0px 16px 48px;
+		margin: auto;
+	}
+
+	.btn-back {
+		background-color: #25661a;
+		color: #fff;
+		border: none;
+		padding: 6px 12px;
+		margin: 16px 0 16px 48px;
+		border-radius: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #2f6649;
+		}
 	}
 
 	.info {

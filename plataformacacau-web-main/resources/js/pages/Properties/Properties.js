@@ -43,6 +43,8 @@ export default {
 			fields: Fields,
 			paginationOptions: PaginationOptions,
 			//Modificado
+			selectedDatePeriod: null,
+        	datePeriods: [],
 			xlsLoading: null,
 			pdfLoading: null,
 			startDate: '',//Antes era NULL
@@ -338,25 +340,7 @@ export default {
 			$("#modalPropertiesExport").modal("hide");
 		},
 		//Modificado
-		/*
-		exportPropertyXls(propertyId) {
-
-			this.xlsLoading = true;
-			const fileFormat = "xls";
-			axios
-				.post("/api/v1/export-xls", { propertyId }, {
-					responseType: "arraybuffer",
-					headers: { authorization: `bearer ${this.authToken}` }
-				})
-				.then(response => {
-					this.downloadFile(response, `property_${propertyId}`, fileFormat);
-					this.xlsLoading = false;
-				})
-				.catch(err => {
-					console.log(err.response);
-					this.xlsLoading = false;
-				});
-		},*/
+		
 		exportPropertyXls() {
 			this.xlsLoading = this.exportProperty.id;
 			const fileFormat = "xls";
@@ -398,30 +382,6 @@ export default {
 					this.pdfLoading = null;
 				});
 		},
-		
-		
-/*
-		downloadFile(response, filename, fileformat) {
-			let type = "application/vnd.ms-excel"; // Define o tipo de arquivo para XLS
-			
-			const newBlob = new Blob([response.data], { type });
-			const data = window.URL.createObjectURL(newBlob);
-			const link = document.createElement("a");
-
-			if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveOrOpenBlob(newBlob);
-			} else {
-				link.href = data;
-				link.download = `${filename}.${fileformat}`;
-				link.click();
-			}
-
-			setTimeout(() => {
-				window.URL.revokeObjectURL(data);
-			}, 100);
-		},*/
-
-		
 
 		downloadFile(response, filename, fileformat) {
 			let type = "";
@@ -455,128 +415,90 @@ export default {
 				window.URL.revokeObjectURL(data);
 			}, 100);
 		},
-		/*
-		async fetchVisitDates() {
-			try {
-			  const response = await axios.get('/api/get-visit-dates');
-			  const { oldestVisit, latestVisit } = response.data;
-
-			  // Gerar as opções de datas apenas se houver visitas
-			  if (oldestVisit && latestVisit) {
-				this.generateDateOptions(oldestVisit, latestVisit);
-			  }
-			} catch (error) {
-			  if (error.response && error.response.status === 404) {
-				// Exibir o alerta apenas se o modal foi aberto e não houver visitas
-				alert('Nenhuma visita encontrada no banco de dados.');
-			  } else {
-				console.error(error);
-			  }
-			}
-		  },
-
-		  generateDateOptions(oldestVisit, latestVisit) {
-			const oldestYear = new Date(oldestVisit).getFullYear();
-			const latestYear = new Date(latestVisit).getFullYear();
-			
-			this.startDates = [];
-    		this.endDates = [];
-
-			// Gerar opções de outubro e setembro de cada ano
-			for (let year = oldestYear; year <= latestYear; year++) {
-			  this.startDates.push(`Outubro/${year}`);
-			  this.endDates.push(`Setembro/${year}`);
-			}
-		  },
-		*/
 
 		async handleExport() {
-			console.log(this.startDate);
-			console.log(this.endDate);
+			console.log(this.selectedDatePeriod);
+			
 			try {
-			  // Verificar se há datas para exportação
-			  if (this.startDates.length === 0 || this.endDates.length === 0) {
-				return;
-			  }
-			  this.exportProperty.startDate = this.startDate;
-			  this.exportProperty.endDate = this.endDate;
-			  
-			  // Chamar a função de exportação, passando os parâmetros necessários
-			  this.exportPropertyXls(this.property.id, this.startDate, this.endDate);
+				// Chamar o método para gerar as datas a partir do período selecionado
+				this.parseSelectedPeriod();
+		
+				// Verificar se há datas para exportação
+				if (!this.startDate || !this.endDate) {
+					return;
+				}
+				console.log(this.startDate);
+				console.log(this.endDate);
+				this.exportProperty.startDate = this.startDate;
+				this.exportProperty.endDate = this.endDate;
+		
+				// Chamar a função de exportação, passando os parâmetros necessários
+				this.exportPropertyXls(this.property.id, this.startDate, this.endDate);
 			} catch (error) {
-			  console.error(error);
-			}
-		  },
-
-		  /*
-		  index() {
-			this.loading = true;
-
-			axios
-				.get("/api/v1/properties", {
-					headers: { authorization: `bearer ${this.authToken}` },
-				})
-				.then((response) => {
-					if (response.status === 200) {
-						console.log('Dados recebidos:', response.data.data);
-						this.properties = response.data.data;
-					} else {
-						console.log(response);
-					}
-					this.loading = false;
-				})
-				.catch((err) => {
-					console.log(err);
-					this.loading = false;
-				});
-		},
-		  */
-		  
-		  async fetchVisitDates() {
-			try {
-			  const response = await axios.get('/api/v1/get-visit-dates', {
-												headers: { authorization: `bearer ${this.authToken}` },
-											});
-			  const { oldestVisit, latestVisit } = response.data;
-	  
-			  if (oldestVisit && latestVisit) {
-				this.generateDateOptions(oldestVisit, latestVisit);
-			  } else {
-				// Limpar as datas se não houver visitas
-				this.startDates = [];
-				this.endDates = [];
-			  }
-			} catch (error) {
-			  if (error.response && error.response.status === 404) {
-				// Limpar as datas se não houver visitas
-				this.startDates = [];
-				this.endDates = [];
-			  } else {
 				console.error(error);
-			  }
 			}
-		  },
-	  
-		  generateDateOptions(oldestVisit, latestVisit) {
+		},
+		  
+		async fetchVisitDates() {
+			try {
+				const response = await axios.get('/api/v1/get-visit-dates', {
+					headers: { authorization: `bearer ${this.authToken}` },
+				});
+				const { oldestVisit, latestVisit } = response.data;
+				
+				if (oldestVisit && latestVisit) {
+					this.generateDateOptions(oldestVisit, latestVisit);
+				} else {
+					// Limpar as datas se não houver visitas
+					this.datePeriods = [];
+				}
+			} catch (error) {
+				if (error.response && error.response.status === 404) {
+					// Limpar as datas se não houver visitas
+					this.datePeriods = [];
+				} else {
+					console.error(error);
+				}
+			}
+		},
+		
+		generateDateOptions(oldestVisit, latestVisit) {
 			const oldestYear = new Date(oldestVisit).getFullYear();
 			const latestYear = new Date(latestVisit).getFullYear();
-	  
-			this.startDates = [];
-			this.endDates = [];
-	  
-			for (let year = oldestYear; year <= latestYear; year++) {
-				// Adicionar apenas se não for o último valor de startDates
-				if (year !== latestYear) {
-					this.startDates.push(`Outubro/${year}`);
-				}
+			const currentYear = new Date().getFullYear(); // Ano atual
+			const currentMonth = new Date().getMonth(); // Mês atual (0 = Janeiro, 9 = Outubro)
+			
+			// Se o mês atual for menor que Outubro (mês 9), a última safra válida será até o ano anterior
+			const limitYear = currentMonth < 9 ? currentYear - 1 : currentYear;
 		
-				// Adicionar apenas se não for o primeiro valor de endDates
-				if (year !== oldestYear) {
-					this.endDates.push(`Setembro/${year}`);
-				}
+			this.datePeriods = [];
+		
+			for (let year = oldestYear; year <= latestYear && year <= limitYear; year++) {
+				const nextYear = year + 1;
+				this.datePeriods.push(`Outubro/${year} - Setembro/${nextYear}`);
 			}
-		  },
+		},
+		
 
+		parseSelectedPeriod() {
+			if (!this.selectedDatePeriod) {
+				return;
+			}
+		
+			// Exemplo: "Outubro/2022 - Setembro/2023"
+			const periodParts = this.selectedDatePeriod.split(' - ');
+		
+			// Pegar o ano da parte "Outubro/YYYY"
+			const startYear = periodParts[0].split('/')[1];
+			// Pegar o ano da parte "Setembro/YYYY"
+			const endYear = periodParts[1].split('/')[1];
+		
+			// Definir a data de início no formato "Outubro/2022"
+			this.startDate = `Outubro/${startYear}`;
+			
+			// Definir a data de fim no formato "Setembro/2023"
+			this.endDate = `Setembro/${endYear}`;
+		},
 
 		//Modificado
 	},/*Reponsável por sumir com os estados e o erro 404 assim que vai para propriedades

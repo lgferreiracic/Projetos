@@ -2,20 +2,18 @@
 	<div id="sampling-points" class="mt-5 samplingPointWrapper">
 		<div class="admin-content">
 			<div
-				class="admin-header d-flex justify-content-between align-items-center p-2"
+				class="admin-header d-flex align-items-center p-2"
 			>
-				<div class="d-flex flex-column">
-					<h1>Pontos Amostrais</h1>
-					<p class="pa-limit">
-						{{ stratum.label }}
-						<!-- Pontos amostrais cadastrados -
-						{{ stratum.total_sampling_points }}/5 -->
-					</p>
+				<div class="d-flex align-items-center">
+					<button @click="$router.go(-1)" class="btn btn-back">
+						<i class="fas fa-arrow-left"></i>
+					</button>
+					<h1 class="ml-2">Pontos Amostrais</h1>
 				</div>
 				<button
 					v-if="stratum.total_sampling_points < 5"
 					type="button"
-					class="btn btn-agro btn-add"
+					class="btn btn-agro btn-add ml-auto"
 					@click.prevent="addModal"
 				>
 					<i class="fas fa-plus"></i>
@@ -336,7 +334,25 @@
 		font-weight: 600;
 		font-size: 24px;
 
-		padding: 16px 0px 4px 48px;
+		padding: 16px 0px 16px 16px;
+		margin: auto;
+	}
+
+	.btn-back {
+		background-color: #25661a;
+		color: #fff;
+		border: none;
+		padding: 6px 12px;
+		margin: 16px 0 16px 48px;
+		border-radius: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #2f6649;
+		}
 	}
 
 	.info {

@@ -92,6 +92,8 @@ class DataImport implements
 				return "Fazenda 13J";
 			case 14:
 				return "Fazenda 14K";
+			case 15:
+				return "Fazenda 15L";
 			default:
 				return;
 		}
@@ -149,6 +151,7 @@ class DataImport implements
 				'status'       => true,
 				'city'         => 'Ilhéus',
 				'uf'           => 'BA',
+				'area_name'    => 'Roça',
 			]);
 
 			// associate geolocation if the property doesn't have one yet
@@ -170,7 +173,7 @@ class DataImport implements
 			//Modificado
 			if (isset($row['ah'])) {
 				$homogeneous_area = HomogeneousArea::firstOrCreate([
-					'label' => "AH " . strval($row['ah']) . " - Fazenda " . $property->id,
+					'label' => strval($row['ah']),
 					'property_id' => $property->id
 				]);
 			} else {
@@ -193,7 +196,7 @@ class DataImport implements
 			if (isset($row['uo'])) {
 				// Se 'UO' existir no array, criar ou buscar o estrato normalmente
 				$stratum = Stratum::firstOrCreate([
-					'label' => "UO " . strval($row['uo']) . " - " . $homogeneous_area->label,
+					'label' => strval($row['uo']),
 					'homogeneous_area_id' => $homogeneous_area->id,
 				]);
 			} else {
@@ -206,76 +209,72 @@ class DataImport implements
 			}
 			// Modificado
 
-
 			// $label = "PA " . $row['pa'] . " - UO " . $stratum ->id;
-			//$sampling_point = SamplingPoint::where('label', $row['pa'])->latest()->first();
-			// Modificado
-			if (isset($row['pa'])) {
-				// Se 'PA' existir no array, buscar o ponto de amostragem normalmente
-				$sampling_point = SamplingPoint::where('label', $row['pa'])->latest()->first();
-			} else {
-				// Tratar o caso onde 'PA' não existe, se necessário
-				// Exemplo: criar um ponto de amostragem padrão ou lançar uma exceção
-				// Nesse exemplo, definimos 'PA' como um valor padrão ou vazio, se apropriado
-				$sampling_point = SamplingPoint::where('label', 'PA')->latest()->first();
-			}
-			// Modificado
-
+			$sampling_point = SamplingPoint::where('label', $row['pa'])
+				->whereHas('stratum', function ($query) use ($row) {
+					$query->where('label', $row['uo']) // Verifica o label do Stratum
+						->whereHas('homogeneous_area', function ($query) use ($row) {
+							$query->where('label', $row['ah']); // Verifica o label da HomogeneousArea
+						});
+				})
+				->latest()
+				->first();
 
 			if (!$sampling_point) {
 				$geolocation = Geolocation::create([
 					'latitude' => '1',
 					'longitude' => '1',
 				]);
-			
-				// Verificações para criar o SamplingPoint
+
 				$sampling_point = SamplingPoint::create([
-					'label' => isset($row['pa']) ? $row['pa'] : 'PA ',
-					'ini_period' => isset($row['periodo']) ? $row['periodo'] : 0,
-					'status' => true,
-					'harvest' => isset($row['safra']) ? $row['safra'] : 0,
-					'year' => isset($row['ano']) ? $row['ano'] : 0,
-					'property_id' => $property->id,
-					'stratum_id' => $stratum->id,
-					'geolocation_id' => $geolocation->id,
-					'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : null,
+					'label' 			=> $row['pa'],
+					'ini_period' 		=> $row['periodo'],
+					'status'			=> true,
+					'harvest'			=> $row['safra'],
+					'year'				=> $row['ano'],
+					'property_id' 		=> $property->id,
+					'stratum_id'		=> $stratum->id,
+					'geolocation_id' 	=> $geolocation->id,
+					'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
 				]);
-			
+
 				// $sampling_point->geolocation()->associate($geolocation);
 			} else {
 				if ($sampling_point->property_id === $property->id) {
-					// Verificações para atualizar o SamplingPoint
 					$sampling_point->update([
-						'label' => isset($row['pa']) ? $row['pa'] : $sampling_point->label,
-						'ini_period' => isset($row['periodo']) ? $row['periodo'] : $sampling_point->ini_period,
-						'status' => true,
-						'harvest' => isset($row['safra']) ? $row['safra'] : $sampling_point->harvest,
-						'year' => isset($row['ano']) ? $row['ano'] : $sampling_point->year,
-						'property_id' => $sampling_point->property_id,
-						'stratum_id' => $sampling_point->stratum_id,
-						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : $sampling_point->lastVisit,
+						'label' 			=> $row['pa'],
+						'ini_period' 		=> $row['periodo'],
+						'status'			=> true,
+						'harvest'			=> $row['safra'],
+						'year'				=> $row['ano'],
+						'property_id' 		=> $sampling_point->property_id,
+						'stratum_id'		=> $sampling_point->stratum_id,
+						// 'geolocation_id' 	=> null,
+						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
 					]);
 				} else if ($sampling_point->property_id !== $property->id) {
 					$sampling_point = SamplingPoint::create([
-						'label' => isset($row['pa']) ? $row['pa'] : 'PA ',
-						'ini_period' => isset($row['periodo']) ? $row['periodo'] : 0,
-						'status' => true,
-						'harvest' => isset($row['safra']) ? $row['safra'] : 0,
-						'year' => isset($row['ano']) ? $row['ano'] : 0,
-						'property_id' => $property->id,
-						'stratum_id' => $stratum->id,
-						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : null,
+						'label' 			=> $row['pa'],
+						'ini_period' 		=> $row['periodo'],
+						'status'			=> true,
+						'harvest'			=> $row['safra'],
+						'year'				=> $row['ano'],
+						'property_id' 		=> $property->id,
+						'stratum_id'		=> $stratum->id,
+						// 'geolocation_id' 	=> $geolocation->id,
+						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
 					]);
 				} else {
 					$sampling_point->update([
-						'label' => isset($row['pa']) ? $row['pa'] : $sampling_point->label,
-						'ini_period' => isset($row['periodo']) ? $row['periodo'] : $sampling_point->ini_period,
-						'status' => true,
-						'harvest' => isset($row['safra']) ? $row['safra'] : $sampling_point->harvest,
-						'year' => isset($row['ano']) ? $row['ano'] : $sampling_point->year,
-						'property_id' => $sampling_point->property_id,
-						'stratum_id' => $sampling_point->stratum_id,
-						'lastVisit' => isset($row['data']) ? strval($this->sanitizeDate($row['data'])) : $sampling_point->lastVisit,
+						'label' 			=> $row['pa'],
+						'ini_period' 		=> $row['periodo'],
+						'status'			=> true,
+						'harvest'			=> $row['safra'],
+						'year'				=> $row['ano'],
+						'property_id' 		=> $sampling_point->property_id,
+						'stratum_id'		=> $sampling_point->stratum_id,
+						// 'geolocation_id' 	=> null,
+						'lastVisit' 		=> strval($this->sanitizeDate($row['data'])),
 					]);
 				}
 			}
@@ -340,6 +339,7 @@ class DataImport implements
 				'total' 		=> $row['0_21'] ? $row['0_21'] : 0,
 				'loss' 			=> $row['per_0_21'] ? $row['per_0_21'] : 0,
 				'piece' 		=> $row['peco_0_21'] ? $row['peco_0_21'] : 0,
+				//'witchs_broom'  => $row['vas_0_21'] ? $row['vas_0_21'] : 0,
 			]);
 
 			$small = Small::create([
@@ -351,16 +351,17 @@ class DataImport implements
 
 			$medium = Medium::create([
 				'total' 		=> $row['42_63'] ? $row['42_63'] : 0,
-				'rotten' 		=> $row['pod_42_63'] ? $row['pod_42_63'] : 0,
-				'rat' 			=> $row['rat_42_63'] ? $row['rat_42_63'] : 0,
-				'witchs_broom' 	=> $row['vas_42_63'] ? $row['vas_42_63'] : 0,
+				//'harvested' 	=> $row['c_42_63'] ? intval($row['c_42_63']) : 0,
+				//'rotten' 		=> $row['pod_42_63'] ? $row['pod_42_63'] : 0,
+				//'rat' 			=> $row['rat_42_63'] ? $row['rat_42_63'] : 0,
+				//'witchs_broom' 	=> $row['vas_42_63'] ? $row['vas_42_63'] : 0,
 				'loss' 			=> $row['per_42_63'] ? $row['per_42_63'] : 0,
 				'piece' 		=> $row['peco_42_63'] ? $row['peco_42_63'] : 0,
 			]);
 
 			$medium2 = Medium2::create([
 				'total' 		=> $row['63_84'] ? $row['63_84'] : 0,
-				//'harvested' 	=> $row['c_63_84'] ? $row['c_63_84'] : 0,
+				//'harvested' 	=> $row['c_63_84'] ? intval($row['c_63_84']) : 0,
 				'rotten' 		=> $row['pod_63_84'] ? $row['pod_63_84'] : 0,
 				'rat' 			=> $row['rat_63_84'] ? $row['rat_63_84'] : 0,
 				'witchs_broom' 	=> $row['vas_63_84'] ? $row['vas_63_84'] : 0,
