@@ -18,7 +18,7 @@
 						<li class="sidebar-item">
 							<button
 								v-if="
-									$can('properties-manager') || $can('admin')
+									$can('properties-manager') || $can('admin') || $can('pre-registered')
 								"
 								tag="button"
 								@click="navigateTo('/panel')"
@@ -139,6 +139,21 @@
 							>
 								<span class="fas fa-book fa-lg"></span
 								><span class="link-text">Documentações</span>
+							</button>
+						</li>
+						<li>
+							<button
+								v-if="$can('admin')"
+								tag="button"
+								@click="navigateTo('/panel/data-import')"
+								:class="{
+									btn: true,
+									'sidebar-link': true,
+									active: path === 'data-import',
+								}"
+							>
+								<span class="fas fa-file-upload fa-lg"></span
+								><span class="link-text">Importar</span>
 							</button>
 						</li>
 					</ul>

@@ -1,8 +1,8 @@
 <template>
-	<div id="reports" class="p-4 p-md-5">
+	<div id="reports" class="mt-5 dataImportWrapper">
 		<div class="admin-content">
 			<div class="admin-header d-flex">
-				<h2 style="padding-right: 0.5% !important">Importar Dados</h2>
+				<h1>Importar Dados</h1>
 			</div>
 		</div>
 
@@ -12,8 +12,7 @@
 					<div class="d-flex">
 						<div class="form-group">
 							<label for="exampleFormControlFile1"
-								>Escolha um arquivo .CSV para importar os
-								dados</label
+								>Escolha um arquivo .CSV para importar os dados</label
 							>
 							<input
 								type="file"
@@ -26,8 +25,19 @@
 							<p style="color: red" v-show="show">{{ message }}</p>
 						</div>
 						<div class="form-group ml-5">
-							<button type="submit" class="btn btn-success" :disabled="show">
-								<i class="fas fa-download"></i> Importar
+							<button 
+								type="submit" 
+								class="btn btn-agro float-right" 
+								:disabled="show || this.csvLoading"
+							>
+								<span
+									v-if="csvLoading"
+									class="spinner-border spinner-border-sm"
+									role="status"
+									aria-hidden="true"
+								></span>
+								<span v-if="csvLoading">Carregando...</span>
+								<span v-else><i class="fas fa-download"></i> Importar</span>
 							</button>
 						</div>
 					</div>
@@ -40,10 +50,34 @@
 <script src="./DataImport"></script>
 
 <style lang="scss">
-.data-box {
-	height: 20vh;
-	padding: 1.7%;
-	border-radius: 3px;
-	box-shadow: 2px 10px 15px #0000002d;
+.dataImportWrapper {
+	background-color: #f5f8fd;
+	border-radius: 20px;
+
+	h1 {
+		color: #3d8160;
+		font-family: "Lexend", sans-serif;
+		font-weight: 600;
+		font-size: 24px;
+		padding: 16px 0px 16px 48px;
+	}
+
+	.data-box {
+		padding: 2.7%;
+		box-shadow: 2px 10px 15px #0000002d;
+		border-radius: 20px;
+	}
+
+	.container {
+    	margin-left: 0; 
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 576px) {
+	.dataImportWrapper {
+		height: 75vh;
+		max-height: 80vh;
+	}
 }
 </style>

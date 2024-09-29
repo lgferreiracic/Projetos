@@ -584,7 +584,7 @@
 		font-weight: 600;
 		font-size: 24px;
 
-		padding: 16px 0px 16px 48px;
+		padding: 16px 0px 8px 48px;
 	}
 
 	.btn-add {

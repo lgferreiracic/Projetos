@@ -51,6 +51,8 @@ Route::namespace('Client')->group(function () {
 			->middleware('role:admin,reports-manager');
 		Route::get('/docs', 'PanelController@index')
 			->middleware('role:admin');
+		Route::get('/data-import', 'PanelController@index')
+			->middleware('role:admin');
 	});
 
 	Route::get('login', 'AuthController@index')->name('login');

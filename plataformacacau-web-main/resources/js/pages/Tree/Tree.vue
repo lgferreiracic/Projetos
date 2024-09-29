@@ -144,6 +144,7 @@
 	.info {
 		font-family: "Lexend", sans-serif;
 		font-size: 14px;
+		margin-bottom: 0;
 	}
 
 	.btn-add {

@@ -49,14 +49,14 @@ const router = new VueRouter({
 		{
 			path: "/panel",
 			name: "map",
-			component: Map,
+			component: Map,/*
 			beforeEnter: (to, from, next) => {
 				if (window.Roles[0].label === "pre-registered") {
 					next({ name: "properties" });
 				} else {
 					next();
 				}
-			},
+			},*/
 		},
 		{
 			path: "/panel/homogeneous-area",

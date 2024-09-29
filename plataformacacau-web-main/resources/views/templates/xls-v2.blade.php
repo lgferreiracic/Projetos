@@ -38,7 +38,6 @@
             <th>POD 168-189</th>
             <th>POD 189-210</th>
             <th>POD >210</th>
-            <th>RAT 42-63</th>
             <th>RAT 63-84</th>
             <th>RAT 84-105</th>
             <th>RAT 105-126</th>
@@ -120,7 +119,6 @@
                 <td>{{ $tree_visit->mature2->rat }}</td>
                 <td>{{ $tree_visit->mature3->rat }}</td>
                 <td>{{ $tree_visit->mature4->rat }}</td>
-                <td>{{ $tree_visit->small->witchs_broom }}</td>
                 <td>{{ $tree_visit->medium2->witchs_broom }}</td>
                 <td>{{ $tree_visit->medium3->witchs_broom }}</td>
                 <td>{{ $tree_visit->adult->witchs_broom }}</td>

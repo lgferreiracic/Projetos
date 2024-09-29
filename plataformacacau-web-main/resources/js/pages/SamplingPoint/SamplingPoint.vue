@@ -334,7 +334,7 @@
 		font-weight: 600;
 		font-size: 24px;
 
-		padding: 16px 0px 16px 16px;
+		padding: 16px 0px 8px 16px;
 		margin: auto;
 	}
 
