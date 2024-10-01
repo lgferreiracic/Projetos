@@ -5,7 +5,7 @@
 				title="Voltar para unidades operacionais"
 			></back-button> -->
 			<div
-				class="admin-header d-flex justify-content-between align-items-center p-4"
+				class="admin-header d-flex align-items-center p-2"
 			>
 				<button @click="$router.go(-1)" class="btn btn-back"><i class="fas fa-arrow-left"></i></button>
 				<div class="col">
@@ -112,7 +112,7 @@
 .treeWrapper {
 	background-color: #f5f8fd;
 	border-radius: 20px;
-	margin-top: 64px;
+	margin-top: 3rem !important;
 
 	h1 {
 		color: #3d8160;

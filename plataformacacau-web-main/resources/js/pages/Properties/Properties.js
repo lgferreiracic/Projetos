@@ -345,7 +345,7 @@ export default {
 			this.xlsLoading = this.exportProperty.id;
 			const fileFormat = "xls";
 			const { id, startDate, endDate } = this.exportProperty; // Pega os dados da exportação
-
+			alert("Aguarde alguns minutos, pois o processo pode ser demorado");
 			axios
 				.post("/api/v1/exportProperty-xls", { propertyId: id, startDate, endDate }, {
 					responseType: "arraybuffer",

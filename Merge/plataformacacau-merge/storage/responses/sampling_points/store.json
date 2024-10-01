@@ -1,0 +1,27 @@
+{
+	"success": true,
+	"data": {
+		"id": 31,
+		"ini_period": "4",
+		"status": "true",
+		"stratum_id": "1",
+		"geolocation": {
+			"latitude": "-18.45752",
+			"longitude": "25.47852",
+			"ratio": "2.0",
+			"updated_at": "2020-06-26T05:56:55.000000Z",
+			"created_at": "2020-06-26T05:56:55.000000Z",
+			"id": 31
+		},
+		"property": {
+			"id": 1,
+			"name": "Carroll, Sporer and Runte",
+			"owner_name": "Jarrett",
+			"description": "Alice could bear: she got used to know. Let me.",
+			"status": "1",
+			"created_at": "2020-06-26T05:46:25.000000Z",
+			"updated_at": "2020-06-26T05:46:25.000000Z"
+		}
+	},
+	"message": "Ponto Amostral registrado"
+}

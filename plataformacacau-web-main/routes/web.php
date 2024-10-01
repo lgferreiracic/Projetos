@@ -27,6 +27,8 @@ Route::namespace('Client')->group(function () {
 
 		Route::get('/homogeneous-area', 'PanelController@index')
 			->middleware('role:admin,homogeneous_area-manager,pre-registered');
+		Route::get('/homogeneous-area-practice', 'PanelController@index')
+			->middleware('role:admin,homogeneous_area-manager,pre-registered');
 
 		Route::get('/users', 'PanelController@index')
 			->middleware('role:admin,users-manager,pre-registered');

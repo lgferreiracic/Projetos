@@ -7,9 +7,13 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${workspaceFolder}/*cpp",
+                "${workspaceFolder}/glad/*c",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-lGL",
+                "-lglfw",
+                "-ldl"
             ],
             "options": {
                 "cwd": "${fileDirname}"

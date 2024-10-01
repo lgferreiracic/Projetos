@@ -1,0 +1,138 @@
+{
+	"success": true,
+	"data": {
+		"id": 1,
+		"label": "Árvore 1",
+		"status": true,
+		"sampling_point_id": 1,
+		"tree_visits": [
+			{
+				"id": 1,
+				"bobbin": {
+					"id": 1,
+					"total": 18,
+					"piece": 1,
+					"loss": 7,
+					"witchs_broom": 8
+				},
+				"small": {
+					"id": 1,
+					"total": 25,
+					"piece": 3,
+					"loss": 7,
+					"witchs_broom": 5
+				},
+				"medium": {
+					"id": 1,
+					"total": 23,
+					"piece": 6,
+					"loss": 4,
+					"witchs_broom": 3
+				},
+				"adult": {
+					"id": 1,
+					"total": 9,
+					"harvested": 17,
+					"rottend": 6,
+					"rat": 7
+				},
+				"mature": {
+					"id": 1,
+					"total": 10,
+					"harvested": 2,
+					"rotten": 9,
+					"rat": 2
+				},
+				"visit_information": {
+					"id": 1,
+					"date": "1995-04-02 12:36:55",
+					"note": "Enim magni in consequatur est accusamus.",
+					"flowering": 0,
+					"refoliation": 3,
+					"top": 3,
+					"pruned": false,
+					"mowing": false,
+					"weeding": true,
+					"grated": true,
+					"renewed": false,
+					"fertilized": true,
+					"pulverized": false,
+					"unbounded": true,
+					"wind": false,
+					"brown_rot": false,
+					"drought": true,
+					"rain": false,
+					"rat": false,
+					"flood": true,
+					"insect": true,
+					"absence_of_shadow": false,
+					"excess_shade": false
+				}
+			},
+			{
+				"id": 2,
+				"bobbin": {
+					"id": 2,
+					"total": 4,
+					"piece": 3,
+					"loss": 1,
+					"witchs_broom": 0
+				},
+				"small": {
+					"id": 2,
+					"total": 8,
+					"piece": 9,
+					"loss": 7,
+					"witchs_broom": 3
+				},
+				"medium": {
+					"id": 2,
+					"total": 21,
+					"piece": 1,
+					"loss": 4,
+					"witchs_broom": 7
+				},
+				"adult": {
+					"id": 2,
+					"total": 9,
+					"harvested": 0,
+					"rottend": 6,
+					"rat": 2
+				},
+				"mature": {
+					"id": 2,
+					"total": 12,
+					"harvested": 10,
+					"rotten": 9,
+					"rat": 3
+				},
+				"visit_information": {
+					"id": 2,
+					"date": "1994-04-02 07:40:08",
+					"note": "Aut et doloribus eius quas.",
+					"flowering": 0,
+					"refoliation": 3,
+					"top": 1,
+					"pruned": false,
+					"mowing": false,
+					"weeding": false,
+					"grated": true,
+					"renewed": true,
+					"fertilized": true,
+					"pulverized": false,
+					"unbounded": true,
+					"wind": true,
+					"brown_rot": false,
+					"drought": false,
+					"rain": true,
+					"rat": false,
+					"flood": true,
+					"insect": false,
+					"absence_of_shadow": false,
+					"excess_shade": false
+				}
+			}
+		]
+	},
+	"message": null
+}

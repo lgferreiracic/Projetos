@@ -1,0 +1,27 @@
+{
+	"success": true,
+	"data": {
+		"id": 3,
+		"ini_period": 15,
+		"status": true,
+		"stratum_id": 1,
+		"geolocation": {
+			"id": 3,
+			"latitude": "63.412438",
+			"longitude": "-153.25956",
+			"ratio": "2.5",
+			"created_at": "2020-06-26T05:46:25.000000Z",
+			"updated_at": "2020-06-26T05:46:25.000000Z"
+		},
+		"property": {
+			"id": 1,
+			"name": "Carroll, Sporer and Runte",
+			"owner_name": "Jarrett",
+			"description": "Alice could bear: she got used to know. Let me.",
+			"status": "1",
+			"created_at": "2020-06-26T05:46:25.000000Z",
+			"updated_at": "2020-06-26T05:46:25.000000Z"
+		}
+	},
+	"message": null
+}

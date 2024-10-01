@@ -1,0 +1,12 @@
+{
+	"success": true,
+	"data": {
+		"id": 4,
+		"name": "Fazenda Verão",
+		"owner_name": "Lindolfo",
+		"description": "Próximo a Fazenda Outono",
+		"created_at": "2020-06-26T05:27:02.000000Z",
+		"updated_at": "2020-06-26T05:27:52.000000Z"
+	},
+	"message": "Atualizada com sucesso"
+}

@@ -74,10 +74,11 @@ export default {
 						icon: "success",
 						showConfirmButton: true,
 					});
+					this.csvLoading = null;
 				})
 				.catch((err) => {
 					console.log(err.response);
-					this.csvLoading = false;
+					this.csvLoading = null;
 				});
 		}
 		

@@ -1,60 +1,61 @@
 <template>
-	<div id="tree-visits" class="p-4 p-md-5">
+	<div id="tree-visits" class="p-4 p-md-5 homogeneousAreaPracticeWrapper">
 		<div class="admin-content">
-			<back-button title="Voltar para áreas homogêneas"></back-button>
-			<div class="d-flex">
+			<div class="admin-header d-flex align-items-center p-2">
+				<button @click="$router.go(-1)" class="btn btn-back"><i class="fas fa-arrow-left"></i></button>
 				<div class="col">
 					<h2>
 						{{ `Coletas da Prática da Área Homogênea ${halabel}` }}
 					</h2>
 				</div>
 			</div>
-			<br />
+			<div class="homogeneous_area_practice-table">
+				<div v-if="loading" class="loader-overlay">
+					<loader :loading="loading"></loader>
+				</div>
 
-			<div v-if="loading" class="loader-overlay">
-				<loader :loading="loading"></loader>
+				<div v-else>
+					<vue-good-table
+						title="Áreas Homogêneas"
+						:columns="fields"
+						:rows="visits_information"
+						:pagination-options="paginationOptions"
+						:fixed-header="true"
+						:search-options="{
+							enabled: true,
+							placeholder: 'Pesquisar...'
+						}"
+						:sort-options="{
+							enabled: true,
+							initialSortBy: {
+								field: 'id',
+								type: 'asc'
+							},
+						}"
+						compactMode
+					>
+						<div slot="emptystate">
+							Não há registros para esta pesquisa
+						</div>
+						<template slot="table-row" slot-scope="props">
+							<span v-if="props.column.field == 'date'">{{
+								`${convertDate(props.row.date)}`
+							}}</span>
+							<button
+								v-else-if="props.column.field == 'actions'"
+								title="Informações da Prática"
+								class="btn btn-secondary"
+								@click.prevent="
+									showModal(props.row, props.index + 1)
+								"
+							>
+								<i class="fas fa-info-circle fa-lg"></i>
+							</button>
+						</template>
+					</vue-good-table>
+				</div>
 			</div>
-
-			<div v-else>
-				<vue-good-table
-					title="Áreas Homogêneas"
-					:columns="fields"
-					:rows="visits_information"
-					:pagination-options="paginationOptions"
-					:fixed-header="true"
-					:search-options="{
-						enabled: true,
-						placeholder: 'Pesquisar...'
-					}"
-					:sort-options="{
-						enabled: true,
-						initialSortBy: {
-							field: 'id',
-							type: 'asc'
-						},
-					}"
-					compactMode
-				>
-					<div slot="emptystate">
-						Não há registros para esta pesquisa
-					</div>
-					<template slot="table-row" slot-scope="props">
-						<span v-if="props.column.field == 'date'">{{
-							`${convertDate(props.row.date)}`
-						}}</span>
-						<button
-							v-else-if="props.column.field == 'actions'"
-							title="Informações da Prática"
-							class="btn btn-secondary"
-							@click.prevent="
-								showModal(props.row, props.index + 1)
-							"
-						>
-							<i class="fas fa-info-circle fa-lg"></i>
-						</button>
-					</template>
-				</vue-good-table>
-			</div>
+			
 
 			<div
 				class="modal fade"
@@ -354,35 +355,57 @@
 <script src="./HomogeneousAreaPractice.js"></script>
 
 <style lang="scss" scoped>
-i {
-	&.fa-check-circle {
-		color: #06c000;
+
+	.homogeneousAreaPracticeWrapper {
+	background-color: #f5f8fd;
+	border-radius: 20px;
+	margin-top: 3% !important;
+	padding: 0% !important;
+
+
+	h2 {
+		color: #3d8160;
+		font-family: "Lexend", sans-serif;
+		font-weight: 600;
+		font-size: 24px;
+		padding: 16px 0px 8px 16px;
+		margin: auto;
 	}
-	&.fa-times-circle {
-		color: #cf0000;
 	}
-}
 
-#area_information {
-	margin: 2em;
-	font-size: 16px;
-
-	.row {
-		margin-bottom: 1em;
+	.admin-header {
+		display: flex;
+		align-items: center;
 	}
-}
 
-.modal-header {
-	border-bottom: 0px !important;
-}
+	.homogeneous_area_practice-table {
+		padding: 0 31px 48px;
+	}
 
-.modal-footer {
-	border-top: 0px !important;
-}
+	.btn-back {
+		background-color: #25661a;
+		color: #fff;
+		border: none;
+		padding: 6px 12px;
+		margin: 16px 0 16px 48px;
+		border-radius: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
 
-.subtitle {
-	background-color: rgb(230, 230, 230);
-	border-radius: 5px;
-	padding: 5px;
-}
+		&:hover {
+			background-color: #2f6649;
+		}
+	}
+
+	@media (max-width: 576px) {
+	.homogeneousAreaPracticeWrapper {
+		height: 75vh;
+		max-height: 80vh;
+	}
+
+
+	}
+
 </style>
