@@ -1,0 +1,113 @@
+#include <GL/glut.h> // Biblioteca GLUT para o OpenGL
+#include <cmath>     // Para funções matemáticas
+
+// Função para desenhar um círculo
+void drawCircle(float x, float y, float radius, int segments) {
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(x, y); // Centro do círculo
+    for (int i = 0; i <= segments; i++) {
+        float angle = 2.0f * M_PI * i / segments;
+        glVertex2f(x + cos(angle) * radius, y + sin(angle) * radius);
+    }
+    glEnd();
+}
+
+// Função para desenhar um retângulo
+void drawRectangle(float x, float y, float width, float height) {
+    glBegin(GL_QUADS);
+    glVertex2f(x, y);
+    glVertex2f(x + width, y);
+    glVertex2f(x + width, y + height);
+    glVertex2f(x, y + height);
+    glEnd();
+}
+
+// Função para desenhar o céu com degradê
+void drawSky() {
+    glBegin(GL_QUADS);
+    // Cor do céu no topo (azul claro)
+    glColor3f(0.4f, 0.7f, 1.0f);
+    glVertex2f(-1.0f, 1.0f);
+    glVertex2f(1.0f, 1.0f);
+
+    // Cor do céu na parte inferior (azul mais escuro)
+    glColor3f(0.0f, 0.4f, 0.8f);
+    glVertex2f(1.0f, 0.0f);
+    glVertex2f(-1.0f, 0.0f);
+    glEnd();
+}
+
+// Função para desenhar nuvens (elipses)
+void drawCloud(float x, float y) {
+    glColor3f(1.0f, 1.0f, 1.0f); // Cor branca para as nuvens
+    drawCircle(x, y, 0.1f, 20);      // Círculo central
+    drawCircle(x - 0.12f, y, 0.08f, 20); // Lado esquerdo
+    drawCircle(x + 0.12f, y, 0.08f, 20); // Lado direito
+    drawCircle(x, y + 0.08f, 0.07f, 20); // Cima
+}
+
+// Função para desenhar árvores simples
+void drawTree(float x, float y) {
+    // Desenha o tronco da árvore (retângulo marrom)
+    glColor3f(0.6f, 0.3f, 0.0f); // Marrom
+    drawRectangle(x, y, 0.05f, 0.2f);
+
+    // Desenha a copa da árvore (círculo verde)
+    glColor3f(0.0f, 0.8f, 0.0f); // Verde
+    drawCircle(x + 0.025f, y + 0.25f, 0.1f, 20); // Copa
+}
+
+// Função para desenhar o drone
+void drawDrone(float x, float y) {
+    // Corpo do drone (retângulo)
+    glColor3f(0.3f, 0.3f, 0.3f); // Cinza
+    drawRectangle(x, y, 0.2f, 0.05f);
+
+    // Hélices (círculos pequenos)
+    glColor3f(0.0f, 0.0f, 0.0f); // Preto
+    drawCircle(x - 0.1f, y + 0.05f, 0.03f, 10); // Hélice esquerda
+    drawCircle(x + 0.1f, y + 0.05f, 0.03f, 10); // Hélice direita
+}
+
+// Função de renderização principal
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT); // Limpa a tela
+
+    // Desenha o céu com degradê
+    drawSky();
+
+    // Desenha nuvens no céu
+    drawCloud(-0.6f, 0.8f);
+    drawCloud(0.4f, 0.75f);
+    drawCloud(0.0f, 0.9f);
+
+    // Desenha o drone no céu
+    drawDrone(0.0f, 0.7f);
+
+    // Desenha árvores no cenário
+    drawTree(-0.8f, -0.8f);
+    drawTree(-0.4f, -0.8f);
+    drawTree(0.6f, -0.8f);
+
+    glFlush(); // Executa os comandos OpenGL
+}
+
+// Função de inicialização
+void init() {
+    glClearColor(0.0f, 0.6f, 0.9f, 1.0f); // Cor de fundo (azul claro)
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f); // Define a projeção ortográfica
+}
+
+// Função principal
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("Cenário 2D - Vegetação e Drone");
+    init();
+    glutDisplayFunc(display); // Define a função de renderização
+    glutMainLoop(); // Entra no loop principal do GLUT
+    return 0;
+}

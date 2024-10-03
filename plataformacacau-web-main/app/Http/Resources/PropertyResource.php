@@ -32,6 +32,7 @@ class PropertyResource extends JsonResource
 		];
 
 		if (!$request->is('*/app')) { 
+			$data['owner_id'] = $this->owner_id;
 			$data['status'] = $this->status;
 			$data['city'] = $this->city;
 			$data['uf'] = $this->uf;

@@ -111,38 +111,17 @@ class DataImport implements
 		$data = $this->previousCollectGenerator($rows);
 
 		$current_date = date('Y/m/d');
-		/*
-		// Exibir as primeiras 5 linhas de $data
-		$counter = 0;
-		foreach ($data as $row) {
-			print_r($row); // Imprime a linha no terminal
-			$counter++;
-			if ($counter == 5) break; // Para após 5 iterações
-		}
-		*/
 
 		foreach ($data as $row) {
 			// create a new property or get an existent
-			/*$property = Property::firstOrCreate([
-				'id' 			=> $row['faz'],
-				'name' 			=> $this->check_farm_identifier(intval($row['faz'])),
-				'owner_name'	=> 'CEPLAC',
-				'owner_id'	=> 1,
-				'status'		=> true,
-				'city'			=> 'Ilhéus',
-				'uf'			=> 'BA',
-			]);*/
-			// Verifique se o nome está retornando null
+
 			$farmName = $this->check_farm_identifier(intval($row['faz']));
     
-			// Se for null, defina um valor padrão ou lance uma exceção
 			if (is_null($farmName)) {
-				$farmName = '11'; // ou trate de outra forma
-				// Ou, se desejar parar a execução com um erro:
-				// throw new Exception("O nome da propriedade não pode ser nulo para o ID: " . $row['faz']);
+				$farmName = '11'; 
 			}
 		
-			// Crie a propriedade
+			// create a new property or get an existent
 			$property = Property::firstOrCreate([
 				'id'           => $row['faz'],
 				'name'         => $farmName,
@@ -165,56 +144,38 @@ class DataImport implements
 					'geolocation_id' => $property_geolocation->id,
 				]);
 			}
-			/*
-			$homogeneous_area = HomogeneousArea::firstOrCreate([
-				'label' => "AH " . strval($row['ah']) . " - Fazenda " . $property->id,
-				'property_id' => $property->id
-			]);*/
-			//Modificado
+			
 			if (isset($row['ah'])) {
 				$homogeneous_area = HomogeneousArea::firstOrCreate([
 					'label' => strval($row['ah']),
 					'property_id' => $property->id
 				]);
 			} else {
-				// Tratar o caso onde 'AH' não existe, se necessário
-				// Exemplo: criar uma área homogênea padrão ou lançar uma exceção
 				$homogeneous_area = HomogeneousArea::firstOrCreate([
 					'label' => "AH - Fazenda " . $property->id,
 					'property_id' => $property->id
 				]);
-			}//Modificado
+			}
 
-
-			// create new stratum if it does't exist
-			/*
-			$stratum = Stratum::firstOrCreate([
-				'label' => "UO " . strval($row['uo']) . " - " . $homogeneous_area->label,
-				'homogeneous_area_id' => $homogeneous_area->id,
-			]);*/
 			// Modificado
 			if (isset($row['uo'])) {
-				// Se 'UO' existir no array, criar ou buscar o estrato normalmente
 				$stratum = Stratum::firstOrCreate([
 					'label' => strval($row['uo']),
 					'homogeneous_area_id' => $homogeneous_area->id,
 				]);
 			} else {
-				// Tratar o caso onde 'UO' não existe, se necessário
-				// Exemplo: criar um estrato padrão ou lançar uma exceção
+				// create new stratum if it does't exist
 				$stratum = Stratum::firstOrCreate([
 					'label' => "UO - " . $homogeneous_area->label,
 					'homogeneous_area_id' => $homogeneous_area->id,
 				]);
 			}
-			// Modificado
 
-			// $label = "PA " . $row['pa'] . " - UO " . $stratum ->id;
 			$sampling_point = SamplingPoint::where('label', $row['pa'])
 				->whereHas('stratum', function ($query) use ($row) {
-					$query->where('label', $row['uo']) // Verifica o label do Stratum
+					$query->where('label', $row['uo']) 
 						->whereHas('homogeneous_area', function ($query) use ($row) {
-							$query->where('label', $row['ah']); // Verifica o label da HomogeneousArea
+							$query->where('label', $row['ah']); 
 						});
 				})
 				->latest()
